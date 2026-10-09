@@ -1,1305 +1,1034 @@
-```html
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>조선 연찰록 - 연애 애착유형 감결</title>
-  
-  <meta name="theme-color" content="#9E3039" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <meta name="apple-mobile-web-app-title" content="조선연찰록" />
-  <meta name="description" content="조선 시대 감성으로 톺아보는 나의 성인 연애 애착유형 감결서 (PWA 지원)" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>조선 연찰록(戀察錄) - 한글날 연애 애착유형 감결</title>
+  <meta name="description" content="조선 시대 감성으로 들여다보는 나의 연애 애착유형(안정·불안·거부회피·공포회피) 심리 진단">
+  <meta name="theme-color" content="#2c1810">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="조선연찰록">
 
-  <!-- Google Fonts: Song Myung, Noto Serif KR, Gowun Batang -->
+  <!-- 웹폰트: 한글 고전 세리프 & 본문 고딕 -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Noto+Serif+KR:wght@400;600;900&family=Song+Myung&display=swap" rel="stylesheet">
-  
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;600;700;900&family=Song+Myung&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
 
-  <!-- PWA Dynamic Manifest & Inline Service Worker Engine -->
+  <!-- PWA Dynamic Web App Manifest -->
   <script>
-    (function initPwaAssets() {
-      // Traditional Korean Red Seal SVG Icon for PWA
-      const iconSvg = `
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
-          <rect width="512" height="512" rx="110" fill="#9E3039"/>
-          <rect x="36" y="36" width="440" height="440" rx="90" fill="none" stroke="#E5C778" stroke-width="12"/>
-          <circle cx="256" cy="256" r="170" fill="#FDFBF7" stroke="#9E3039" stroke-width="6"/>
-          <path d="M256 160 C210 100 130 140 160 210 C180 260 256 320 256 320 C256 320 332 260 352 210 C382 140 302 100 256 160 Z" fill="#9E3039" opacity="0.18"/>
-          <text x="50%" y="42%" text-anchor="middle" font-family="'Song Myung', serif" font-size="105" font-weight="900" fill="#231F20" dy=".3em">戀札</text>
-          <text x="50%" y="67%" text-anchor="middle" font-family="'Song Myung', serif" font-size="105" font-weight="900" fill="#9E3039" dy=".3em">鑑訣</text>
-        </svg>
-      `;
-      const iconUrl = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(iconSvg);
-
-      const appleIcon = document.createElement('link');
-      appleIcon.rel = 'apple-touch-icon';
-      appleIcon.href = iconUrl;
-      document.head.appendChild(appleIcon);
-
-      const favicon = document.createElement('link');
-      favicon.rel = 'icon';
-      favicon.type = 'image/svg+xml';
-      favicon.href = iconUrl;
-      document.head.appendChild(favicon);
-
-      // PWA Manifest Object
+    (function setupPWA() {
+      const iconSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512"><rect width="512" height="512" rx="100" fill="#2c1810"/><circle cx="256" cy="256" r="190" fill="#f4ebd9" stroke="#b91c1c" stroke-width="14"/><path d="M256 160 C210 110, 140 140, 150 200 C160 250, 256 340, 256 340 C256 340, 352 250, 362 200 C372 140, 302 110, 256 160 Z" fill="#b91c1c"/><text x="256" y="420" font-family="'Song Myung', serif" font-size="52" fill="#2c1810" font-weight="bold" text-anchor="middle">戀察錄</text></svg>`;
+      const iconDataUri = "data:image/svg+xml;base64," + btoa(unescape(encodeURIComponent(iconSvg)));
+      
       const manifest = {
         name: "조선 연찰록 - 연애 애착유형 감결",
         short_name: "조선연찰록",
-        start_url: window.location.href,
+        description: "조선 감성으로 진단하는 나의 연애 심리와 애착유형",
+        start_url: "./index.html",
         display: "standalone",
-        background_color: "#F6F1E8",
-        theme_color: "#9E3039",
-        description: "조선 감성으로 정밀 진단하는 4대 성인 연애 애착유형",
-        icons: [{
-          src: iconUrl,
-          sizes: "512x512",
-          type: "image/svg+xml",
-          purpose: "any maskable"
-        }]
+        orientation: "portrait",
+        background_color: "#f4ebd9",
+        theme_color: "#2c1810",
+        icons: [
+          { src: iconDataUri, sizes: "192x192", type: "image/svg+xml", purpose: "any maskable" },
+          { src: iconDataUri, sizes: "512x512", type: "image/svg+xml", purpose: "any maskable" }
+        ]
       };
-
-      const manifestBlob = new Blob([JSON.stringify(manifest)], { type: 'application/json' });
-      const manifestLink = document.createElement('link');
-      manifestLink.rel = 'manifest';
-      manifestLink.href = URL.createObjectURL(manifestBlob);
-      document.head.appendChild(manifestLink);
-
-      // Register Caching Service Worker
-      if ('serviceWorker' in navigator) {
-        const swScript = `
-          const CACHE = 'joseon-love-v1';
-          self.addEventListener('install', e => self.skipWaiting());
-          self.addEventListener('activate', e => clients.claim());
-          self.addEventListener('fetch', e => {
-            e.respondWith(
-              fetch(e.request).catch(() => caches.match(e.request))
-            );
-          });
-        `;
-        const swBlob = new Blob([swScript], { type: 'application/javascript' });
-        navigator.serviceWorker.register(URL.createObjectURL(swBlob)).catch(() => {});
-      }
+      
+      const stringManifest = JSON.stringify(manifest);
+      const manifestBlob = new Blob([stringManifest], { type: 'application/json' });
+      const manifestURL = URL.createObjectURL(manifestBlob);
+      const link = document.createElement('link');
+      link.rel = 'manifest';
+      link.href = manifestURL;
+      document.head.appendChild(link);
+      
+      // 애플 터치 아이콘 등록
+      const appleIcon = document.createElement('link');
+      appleIcon.rel = 'apple-touch-icon';
+      appleIcon.href = iconDataUri;
+      document.head.appendChild(appleIcon);
     })();
   </script>
 
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          fontFamily: {
-            serif: ['"Noto Serif KR"', '"Gowun Batang"', 'serif'],
-            calli: ['"Song Myung"', 'serif'],
-          },
-          colors: {
-            hanji: '#F6F1E8',
-            'hanji-card': '#FCFAF6',
-            ink: '#24201E',
-            'ink-muted': '#5D564F',
-            'yeonji-red': '#9E3039',
-            'jade-green': '#2F5A4E',
-            'cheongja-blue': '#2D4B66',
-            'hwangto-gold': '#B2823D',
-            'silk-gold': '#DFBF73',
-          }
-        }
-      }
-    }
-  </script>
-
   <style>
+    :root {
+      --hanji-bg: #f5eedf;
+      --ink-black: #1f1b18;
+      --royal-red: #9e2a2b;
+      --korea-blue: #1d3557;
+      --korea-gold: #c99738;
+      --wood-dark: #3e2723;
+    }
+
     body {
-      background-color: #F5EFE4;
-      background-image: 
-        radial-gradient(#E5DAC3 1.1px, transparent 1.1px),
-        radial-gradient(#D6C5A9 1.1px, #F5EFE4 1.1px);
-      background-size: 28px 28px;
-      background-position: 0 0, 14px 14px;
-      color: #24201E;
-      font-family: 'Noto Serif KR', 'Gowun Batang', serif;
-      -webkit-font-smoothing: antialiased;
-      user-select: none;
+      font-family: 'Noto Sans KR', sans-serif;
+      background-color: #2b1f1a;
+      color: var(--ink-black);
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: transparent;
     }
 
-    /* Traditional Hanji Scroll Panel */
-    .hanji-scroll {
+    .font-serif-kr { font-family: 'Noto Serif KR', serif; }
+    .font-calli { font-family: 'Song Myung', serif; }
+
+    /* 한지 텍스처 효과 */
+    .hanji-paper {
+      background-color: var(--hanji-bg);
+      background-image: radial-gradient(#d6c7b2 0.75px, transparent 0.75px), radial-gradient(#d6c7b2 0.75px, var(--hanji-bg) 0.75px);
+      background-size: 24px 24px;
+      background-position: 0 0, 12px 12px;
+      box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.4), inset 0 0 15px rgba(180, 150, 110, 0.25);
+    }
+
+    /* 조선 왕실 전통 테두리 */
+    .royal-border {
+      border: 2px solid #5a3e2d;
       position: relative;
-      border: 2px solid #C59F5A;
-      box-shadow: 0 14px 34px -10px rgba(50, 40, 30, 0.15);
     }
-    .hanji-scroll::before {
-      content: '❖';
+    .royal-border::before {
+      content: '';
       position: absolute;
-      top: 6px;
-      left: 7px;
-      font-size: 13px;
-      color: #C59F5A;
-      line-height: 1;
-    }
-    .hanji-scroll::after {
-      content: '❖';
-      position: absolute;
-      bottom: 6px;
-      right: 7px;
-      font-size: 13px;
-      color: #C59F5A;
-      line-height: 1;
+      top: 3px; left: 3px; right: 3px; bottom: 3px;
+      border: 1px dashed #aa866a;
+      pointer-events: none;
     }
 
-    /* Red Stamp Seal */
-    .ink-seal {
-      display: inline-flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      border: 2.5px solid #9E3039;
-      border-radius: 7px;
-      padding: 3px 6px;
-      color: #9E3039;
+    /* 낙관 스탬프 효과 */
+    .stamp-seal {
+      border: 3px solid #9e2a2b;
+      color: #9e2a2b;
+      padding: 4px 8px;
+      display: inline-block;
+      font-family: 'Song Myung', serif;
       font-weight: 900;
-      line-height: 1.1;
+      letter-spacing: 2px;
       transform: rotate(-3deg);
-      box-shadow: inset 0 0 0 1px #9E3039;
+      box-shadow: inset 0 0 4px rgba(158, 42, 43, 0.3);
+      background-color: rgba(255, 240, 240, 0.7);
     }
 
-    /* Choice card interactions */
-    .choice-card {
-      transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
-      border: 1.5px solid #E1D3BF;
+    /* 부드러운 화면 전환 */
+    .fade-in {
+      animation: fadeInAnim 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     }
-    .choice-card:hover {
-      border-color: #9E3039;
-      background-color: #FFFFFF;
-      transform: translateY(-2px);
-      box-shadow: 0 8px 18px -4px rgba(158, 48, 57, 0.15);
-    }
-    .choice-card:active {
-      transform: scale(0.985);
-    }
-
-    /* Page fade animations */
-    .fade-panel {
-      animation: smoothRise 0.32s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-    }
-    @keyframes smoothRise {
-      from { opacity: 0; transform: translateY(12px); }
+    @keyframes fadeInAnim {
+      from { opacity: 0; transform: translateY(8px); }
       to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* 선택지 라디오 버튼 커스텀 */
+    .likert-btn {
+      transition: all 0.18s ease;
+    }
+    .likert-btn:active {
+      transform: scale(0.97);
     }
   </style>
 </head>
-<body class="min-h-screen flex flex-col justify-between p-3.5 sm:p-6 md:p-8">
+<body class="min-h-screen flex items-center justify-center p-2 sm:p-4">
 
-  <header class="w-full max-w-xl mx-auto flex justify-between items-center py-2 px-1 mb-2">
-    <div class="flex items-center space-x-2">
-      <span class="inline-flex items-center justify-center w-8 h-8 rounded-lg bg-yeonji-red text-hanji text-xs font-bold font-calli shadow">
-        戀札
-      </span>
-      <div>
-        <h1 class="text-sm font-bold tracking-tight text-ink font-calli">조선 연찰록 (朝鮮 戀札錄)</h1>
-        <p class="text-[10px] text-ink-muted">조선 감성 성인 연애 애착유형 감결서</p>
-      </div>
-    </div>
+  <!-- 모바일 뷰포트 컨테이너 -->
+  <div class="w-full max-w-lg hanji-paper rounded-2xl royal-border min-h-[92vh] flex flex-col justify-between overflow-hidden shadow-2xl relative my-auto">
     
-    <div class="flex items-center space-x-1.5">
-      <!-- PWA Install Trigger -->
-      <button id="pwaInstallBtn" onclick="triggerPwaInstall()" class="hidden text-xs px-2.5 py-1 rounded-full bg-yeonji-red hover:bg-[#83242C] text-white font-medium transition shadow-sm flex items-center gap-1">
-        <span>📲</span>
-        <span class="text-[11px] font-bold">앱 설치</span>
-      </button>
-
-      <!-- Web Audio Gayageum Pluck Toggle -->
-      <button id="audioToggleBtn" onclick="toggleWebAudio()" class="text-xs px-2.5 py-1 rounded-full border border-hwangto-gold/50 bg-hanji-card text-ink-muted hover:text-yeonji-red transition flex items-center gap-1 shadow-sm">
-        <span id="audioIcon">🔊</span>
-        <span id="audioText" class="text-[11px]">가야금</span>
-      </button>
-    </div>
-  </header>
-
-  <!-- PWA Install Guide Banner -->
-  <div id="pwaBanner" class="w-full max-w-xl mx-auto mb-3 bg-amber-50/95 border border-silk-gold rounded-xl p-2.5 px-3.5 text-xs flex justify-between items-center text-ink shadow-sm">
-    <div class="flex items-center space-x-2">
-      <span class="text-base">💌</span>
-      <span class="text-[11px] sm:text-xs">앱으로 설치하여 언제든 정인과 함께 오프라인에서 진단해 보시오!</span>
-    </div>
-    <div class="flex items-center space-x-2 flex-shrink-0">
-      <button onclick="triggerPwaInstall()" class="font-bold text-yeonji-red underline text-[11px] hover:opacity-80">설치하기</button>
-      <button onclick="dismissBanner()" class="text-ink-muted hover:text-ink text-sm px-1">✕</button>
-    </div>
-  </div>
-
-  <main class="w-full max-w-xl mx-auto my-auto py-2">
-
-    <!-- VIEW 1: START SCREEN -->
-    <section id="startScreen" class="fade-panel bg-hanji-card rounded-2xl p-6 sm:p-9 hanji-scroll text-center relative overflow-hidden">
-      <!-- Background Calligraphy Watermark -->
-      <div class="absolute -right-8 -bottom-10 opacity-5 pointer-events-none select-none text-[15rem] font-calli leading-none text-yeonji-red">
-        愛
-      </div>
-
-      <div class="inline-flex items-center gap-1.5 px-3.5 py-1 bg-yeonji-red/10 border border-yeonji-red/30 rounded-full text-yeonji-red text-xs font-bold tracking-widest mb-4">
-        <span>애정 심학 (愛精 心學)</span>
-        <span>•</span>
-        <span>성인 애착 지표</span>
-      </div>
-
-      <h2 class="text-2xl sm:text-3xl font-calli font-bold text-ink leading-snug mb-3">
-        정인을 마주할 때<br/>
-        <span class="text-yeonji-red underline decoration-silk-gold decoration-2 underline-offset-4">그대의 마음은 어떠한가?</span>
-      </h2>
-      <p class="text-xs sm:text-sm text-ink-muted mb-6 leading-relaxed">
-        사랑할 때 나의 영혼은 태산처럼 든든한가, 불꽃처럼 불안한가,<br/>
-        아니면 고고한 학처럼 혼자 머물길 바라는가?<br/>
-        10가지 정교한 문답으로 <strong>불안도</strong>와 <strong>회피도</strong> 사분면 감결을 톺아보시오.
-      </p>
-
-      <!-- 4 Attachment Style Archetypes Preview -->
-      <div class="grid grid-cols-2 gap-2 text-left text-xs bg-[#FBF7F0] p-3.5 rounded-xl border border-hwangto-gold/30 mb-6">
-        <div class="p-2.5 rounded-lg bg-white/80 border border-[#E9DEC9]">
-          <div class="font-bold text-jade-green mb-0.5 font-calli flex items-center gap-1">
-            <span>🛡️</span> <span>태산반석형 (안정형)</span>
-          </div>
-          <div class="text-[11px] text-ink-muted">불안↓ 회피↓ • 든든한 호위무사</div>
-        </div>
-        <div class="p-2.5 rounded-lg bg-white/80 border border-[#E9DEC9]">
-          <div class="font-bold text-yeonji-red mb-0.5 font-calli flex items-center gap-1">
-            <span>🔥</span> <span>단심연모형 (불안형)</span>
-          </div>
-          <div class="text-[11px] text-ink-muted">불안↑ 회피↓ • 불꽃 연가 시인</div>
-        </div>
-        <div class="p-2.5 rounded-lg bg-white/80 border border-[#E9DEC9]">
-          <div class="font-bold text-cheongja-blue mb-0.5 font-calli flex items-center gap-1">
-            <span>🦅</span> <span>고고독야형 (거부회피)</span>
-          </div>
-          <div class="text-[11px] text-ink-muted">불안↓ 회피↑ • 방랑 은둔 고수</div>
-        </div>
-        <div class="p-2.5 rounded-lg bg-white/80 border border-[#E9DEC9]">
-          <div class="font-bold text-[#8338EC] mb-0.5 font-calli flex items-center gap-1">
-            <span>❄️</span> <span>빙산청류형 (혼란회피)</span>
-          </div>
-          <div class="text-[11px] text-ink-muted">불안↑ 회피↑ • 겉차속따 암행어사</div>
+    <!-- 1. 상단 장식 헤더바 -->
+    <header class="bg-[#382319] text-[#f4ebd9] px-4 py-3 flex items-center justify-between border-b-2 border-[#caa472] z-10">
+      <div class="flex items-center space-x-2">
+        <span class="text-lg">📜</span>
+        <div>
+          <h1 class="text-sm font-calli font-bold tracking-widest text-[#f5ecd8]">조선 연찰록 (戀察錄)</h1>
+          <p class="text-[10px] text-[#caa472]">한글날 성인 애착유형 심리 감결</p>
         </div>
       </div>
-
-      <button onclick="startLoveQuiz()" class="w-full py-4 px-6 rounded-xl bg-yeonji-red hover:bg-[#83242C] text-white font-bold text-base tracking-wider transition shadow-md hover:shadow-lg flex items-center justify-center gap-2 group">
-        <span>연찰록 열기 (진단 시작)</span>
-        <span class="transition-transform group-hover:translate-x-1 font-mono">➔</span>
-      </button>
-
-      <div class="mt-4 text-[11px] text-ink-muted/70 flex justify-center items-center gap-2">
-        <span>엄선 10문항</span>
-        <span>•</span>
-        <span>정밀 2차원 사분면 판정</span>
-        <span>•</span>
-        <span>PWA 오프라인 지원</span>
-      </div>
-    </section>
-
-    <!-- VIEW 2: QUIZ SCREEN -->
-    <section id="quizScreen" class="hidden bg-hanji-card rounded-2xl p-5 sm:p-8 hanji-scroll relative">
-      <!-- Progress Bar & Indicator -->
-      <div class="mb-5">
-        <div class="flex justify-between items-center text-xs mb-2">
-          <span id="questionStepText" class="font-calli text-yeonji-red font-bold text-sm tracking-wide">제 1 문항</span>
-          <span id="dimensionPill" class="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-silk-gold/30 text-ink border border-hwangto-gold/30">
-            애정 불안 지표
-          </span>
-          <span id="progressPercent" class="text-hwangto-gold font-bold">10%</span>
-        </div>
-        <!-- Stylized Bamboo Segment Progress Track -->
-        <div class="w-full bg-[#E8DCB8] h-2.5 rounded-full overflow-hidden p-0.5 border border-hwangto-gold/30">
-          <div id="progressBar" class="bg-yeonji-red h-full rounded-full transition-all duration-300 shadow-sm" style="width: 10%;"></div>
-        </div>
-      </div>
-
-      <!-- Question Text -->
-      <div class="min-h-[76px] flex items-center mb-6">
-        <h3 id="questionPrompt" class="text-base sm:text-lg font-bold font-calli text-ink leading-relaxed">
-          문항 내용이 여기에 나타납니다.
-        </h3>
-      </div>
-
-      <!-- Two-Choice Buttons (甲 vs 乙) -->
-      <div class="space-y-3" id="choiceContainer">
-        <button id="choiceA" onclick="chooseLoveOption('A')" class="choice-card w-full text-left p-4 sm:p-4.5 rounded-xl bg-[#FDFCFA] text-ink text-sm sm:text-base leading-relaxed flex items-start space-x-3.5">
-          <span class="w-7 h-7 flex-shrink-0 rounded-full bg-yeonji-red/10 text-yeonji-red border border-yeonji-red/30 flex items-center justify-center font-bold text-xs mt-0.5">甲</span>
-          <span id="choiceAText" class="flex-1 font-medium">선택지 1번</span>
-        </button>
-
-        <button id="choiceB" onclick="chooseLoveOption('B')" class="choice-card w-full text-left p-4 sm:p-4.5 rounded-xl bg-[#FDFCFA] text-ink text-sm sm:text-base leading-relaxed flex items-start space-x-3.5">
-          <span class="w-7 h-7 flex-shrink-0 rounded-full bg-cheongja-blue/10 text-cheongja-blue border border-cheongja-blue/30 flex items-center justify-center font-bold text-xs mt-0.5">乙</span>
-          <span id="choiceBText" class="flex-1 font-medium">선택지 2번</span>
-        </button>
-      </div>
-
-      <!-- Footer Context -->
-      <div class="mt-6 flex justify-between items-center text-[11px] text-ink-muted/70 pt-3 border-t border-hwangto-gold/20">
-        <span>애정 불안도 5문항 • 애정 회피도 5문항</span>
-        <span class="font-calli">조선 성인 애착 감결</span>
-      </div>
-    </section>
-
-    <!-- VIEW 3: RESULT SCREEN -->
-    <section id="resultScreen" class="hidden fade-panel bg-hanji-card rounded-2xl p-4 sm:p-8 hanji-scroll relative overflow-hidden">
       
-      <!-- Capture Area for Canvas Export & Sharing -->
-      <div id="captureArea" class="bg-hanji-card p-1 sm:p-3 rounded-xl">
-        <!-- Top Seal & Decree Header -->
-        <div class="flex justify-between items-start mb-3 border-b border-hwangto-gold/25 pb-2">
-          <div>
-            <div class="text-[10px] font-bold tracking-widest text-hwangto-gold uppercase">◆ 조선 戀札錄 애정 감결서 ◆</div>
-            <div class="text-xs text-ink-muted mt-0.5">정인을 향한 그대의 천생 본성은</div>
-          </div>
-          <div class="ink-seal">
-            <span class="text-[8px] font-mono">御批</span>
-            <span class="text-[10px] font-calli">연찰록</span>
-          </div>
-        </div>
-
-        <!-- Archetype Headings -->
-        <div class="text-center my-3">
-          <div id="resultStyleBadge" class="inline-block text-xs font-bold tracking-wider px-3.5 py-0.5 rounded-full mb-1.5 border shadow-sm">
-            안정 애착 • Secure
-          </div>
-          <h2 id="resultArchetypeTitle" class="text-2xl sm:text-3xl font-calli font-black text-ink tracking-tight mb-1">
-            태산반석형 (泰山盤石)
-          </h2>
-          <p id="resultArchetypeSubtitle" class="text-xs sm:text-sm font-semibold text-jade-green">
-            흔들림 없이 정인을 든든히 지키는 충직한 호위무사
-          </p>
-        </div>
-
-        <!-- Character Visual & Korean Badges -->
-        <div class="flex flex-col items-center justify-center my-4">
-          <div id="characterSvgContainer" class="w-28 h-28 rounded-2xl bg-amber-50/80 border-2 border-silk-gold flex items-center justify-center shadow-inner mb-3 overflow-hidden p-2">
-            <!-- Dynamic SVG Character Illustration will be injected here -->
-          </div>
-          
-          <div id="koreanFeatureBadges" class="flex flex-wrap justify-center gap-1.5 text-xs">
-            <!-- Populated dynamically -->
-          </div>
-        </div>
-
-        <!-- 2-Axis Score Meter Visualization -->
-        <div class="bg-[#F8F2E6] rounded-xl p-3.5 sm:p-4 border border-hwangto-gold/30 mb-4 text-xs space-y-3">
-          <div class="font-bold text-ink text-xs font-calli flex items-center justify-between border-b border-hwangto-gold/20 pb-1">
-            <span>❖ 애정 심학 2대 축 진단치</span>
-            <span class="text-[10px] text-ink-muted">기준치 50%</span>
-          </div>
-          
-          <!-- Anxiety Axis Meter -->
-          <div>
-            <div class="flex justify-between items-center mb-1">
-              <span class="font-bold text-yeonji-red flex items-center gap-1">
-                <span>⚡</span> <span>애정 불안 지수 (버림받을까 두려운 마음)</span>
-              </span>
-              <span id="anxietyScoreText" class="font-bold text-ink">30% (낮음)</span>
-            </div>
-            <div class="w-full bg-[#E3D4BC] h-2 rounded-full overflow-hidden">
-              <div id="anxietyBar" class="bg-yeonji-red h-full rounded-full transition-all duration-500" style="width: 30%;"></div>
-            </div>
-            <div class="flex justify-between text-[10px] text-ink-muted mt-0.5">
-              <span>태평담담 (0%)</span>
-              <span>전전반측 (100%)</span>
-            </div>
-          </div>
-
-          <!-- Avoidance Axis Meter -->
-          <div>
-            <div class="flex justify-between items-center mb-1">
-              <span class="font-bold text-cheongja-blue flex items-center gap-1">
-                <span>🚪</span> <span>애정 회피 지수 (친밀함과 구속을 밀어내는 마음)</span>
-              </span>
-              <span id="avoidanceScoreText" class="font-bold text-ink">20% (낮음)</span>
-            </div>
-            <div class="w-full bg-[#E3D4BC] h-2 rounded-full overflow-hidden">
-              <div id="avoidanceBar" class="bg-cheongja-blue h-full rounded-full transition-all duration-500" style="width: 20%;"></div>
-            </div>
-            <div class="flex justify-between text-[10px] text-ink-muted mt-0.5">
-              <span>밀착친화 (0%)</span>
-              <span>고립자족 (100%)</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- 2D Attachment Quadrant Map (Interactive Canvas-like SVG) -->
-        <div class="bg-[#F8F2E6] rounded-xl p-3.5 sm:p-4 border border-hwangto-gold/30 mb-4 text-xs">
-          <div class="flex justify-between items-center mb-2">
-            <span class="font-bold text-ink font-calli">❖ 조선 애정 사분면 지도 (四象 愛情圖)</span>
-            <span class="text-[10px] text-yeonji-red font-semibold">● 붉은 점 = 그대의 위치</span>
-          </div>
-
-          <div class="relative w-full aspect-square max-w-[280px] mx-auto bg-hanji-card rounded-lg border border-hwangto-gold/40 p-2 overflow-hidden shadow-inner">
-            <!-- Quadrant Labels -->
-            <!-- Top-Left: 불안 높음, 회피 낮음 (불안형) -->
-            <div class="absolute top-2 left-2 text-[9px] font-bold text-yeonji-red opacity-85">
-              [불안형]<br/>단심연모
-            </div>
-            <!-- Top-Right: 불안 높음, 회피 높음 (혼란/공포회피형) -->
-            <div class="absolute top-2 right-2 text-right text-[9px] font-bold text-[#8338EC] opacity-85">
-              [혼란회피형]<br/>빙산청류
-            </div>
-            <!-- Bottom-Left: 불안 낮음, 회피 낮음 (안정형) -->
-            <div class="absolute bottom-2 left-2 text-[9px] font-bold text-jade-green opacity-85">
-              [안정형]<br/>태산반석
-            </div>
-            <!-- Bottom-Right: 불안 낮음, 회피 높음 (거부회피형) -->
-            <div class="absolute bottom-2 right-2 text-right text-[9px] font-bold text-cheongja-blue opacity-85">
-              [거부회피형]<br/>고고독야
-            </div>
-
-            <!-- Axis Center Cross Lines -->
-            <div class="absolute top-1/2 left-0 right-0 h-[1.5px] bg-hwangto-gold/30 -translate-y-1/2"></div>
-            <div class="absolute left-1/2 top-0 bottom-0 w-[1.5px] bg-hwangto-gold/30 -translate-x-1/2"></div>
-
-            <!-- Axis Labels on Center Borders -->
-            <span class="absolute top-1 left-1/2 -translate-x-1/2 text-[8px] text-ink-muted font-bold">불안 높음 ↑</span>
-            <span class="absolute bottom-1 left-1/2 -translate-x-1/2 text-[8px] text-ink-muted font-bold">불안 낮음 ↓</span>
-            <span class="absolute left-1 top-1/2 -translate-y-1/2 text-[8px] text-ink-muted font-bold">← 회피 낮음</span>
-            <span class="absolute right-1 top-1/2 -translate-y-1/2 text-[8px] text-ink-muted font-bold">회피 높음 →</span>
-
-            <!-- User Coordinate Pointer Point -->
-            <div id="userCoordinateDot" class="absolute w-4 h-4 bg-yeonji-red rounded-full border-2 border-white shadow-md transform -translate-x-1/2 -translate-y-1/2 transition-all duration-700 z-10 animate-pulse" style="top: 50%; left: 50%;">
-            </div>
-          </div>
-        </div>
-
-        <!-- Detailed Love Nature & Traits -->
-        <div class="bg-[#F8F2E6] rounded-xl p-4 sm:p-5 border border-hwangto-gold/30 text-xs sm:text-sm leading-relaxed text-ink mb-4">
-          <h4 class="font-bold font-calli text-ink text-sm sm:text-base border-b border-hwangto-gold/30 pb-1.5 mb-2.5 flex items-center gap-1.5">
-            <span>❖</span> <span>애정 성품 감결 (사랑의 특징)</span>
-          </h4>
-          <p id="resultLoveStory" class="whitespace-pre-line text-ink-muted leading-relaxed">
-            성향 해설이 표시됩니다.
-          </p>
-
-          <!-- Poison to Avoid in Love -->
-          <div class="mt-3.5 pt-2.5 border-t border-hwangto-gold/20">
-            <div class="font-bold text-yeonji-red text-xs flex items-center gap-1 mb-1">
-              <span>⚠️</span> <span>연애 시 경계해야 할 마음의 독약 (갈등 촉발점)</span>
-            </div>
-            <p id="resultLovePoison" class="text-xs text-ink-muted leading-relaxed">
-              독약 내용이 표시됩니다.
-            </p>
-          </div>
-
-          <!-- Secret Prescription for Lifelong Love -->
-          <div class="mt-3.5 pt-2.5 border-t border-hwangto-gold/20">
-            <div class="font-bold text-jade-green text-xs flex items-center gap-1 mb-1">
-              <span>💊</span> <span>백년해로를 위한 심중 비방 (처방전)</span>
-            </div>
-            <p id="resultLovePrescription" class="text-xs text-ink-muted leading-relaxed">
-              처방전 내용이 표시됩니다.
-            </p>
-          </div>
-        </div>
-
-        <!-- Chemistry Matrix (천생연분 & 살얼음 인연) -->
-        <div class="grid grid-cols-2 gap-2.5 text-xs mb-2">
-          <div class="bg-emerald-50/80 border border-emerald-200/80 p-3 rounded-xl">
-            <div class="font-bold text-jade-green mb-1 flex items-center gap-1">
-              <span>🕊️</span> <span>천생연분 찰떡 인연</span>
-            </div>
-            <div id="bestLoveMatch" class="font-semibold text-ink leading-tight">
-              안내 문구
-            </div>
-          </div>
-          <div class="bg-rose-50/80 border border-rose-200/80 p-3 rounded-xl">
-            <div class="font-bold text-yeonji-red mb-1 flex items-center gap-1">
-              <span>❄️</span> <span>조심해야 할 살얼음 인연</span>
-            </div>
-            <div id="worstLoveMatch" class="font-semibold text-ink leading-tight">
-              안내 문구
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Action Buttons: Share, Save Image, Replay -->
-      <div class="space-y-2 mt-4">
-        <button onclick="shareOrCopyLoveResult()" class="w-full py-3.5 px-4 rounded-xl bg-ink hover:bg-black text-hanji font-semibold text-sm transition flex items-center justify-center gap-2 shadow-sm">
-          <span>💌</span>
-          <span>나의 연찰록 복사하여 정인에게 보내기</span>
+      <div class="flex items-center space-x-2">
+        <!-- 가야금 효과음 토글 -->
+        <button id="soundToggleBtn" onclick="toggleAudio()" class="text-xs bg-[#4e3224] hover:bg-[#63402e] text-[#e0cfb8] px-2.5 py-1.5 rounded-lg border border-[#8c674e] flex items-center space-x-1" title="가야금 선율 켜기/끄기">
+          <span id="soundIcon">🔊</span>
+          <span id="soundLabel" class="text-[11px] hidden sm:inline">선율 켬</span>
         </button>
 
-        <div class="grid grid-cols-2 gap-2">
-          <button onclick="exportResultImageCard()" class="py-2.5 px-3 rounded-xl bg-yeonji-red hover:bg-[#83242C] text-white font-medium text-xs sm:text-sm transition flex items-center justify-center gap-1.5 shadow-sm">
-            <span>📜</span>
-            <span>감결서 이미지 저장</span>
-          </button>
-          
-          <button onclick="restartLoveQuiz()" class="py-2.5 px-3 rounded-xl border border-hwangto-gold/60 text-ink hover:bg-hwangto-gold/10 font-medium text-xs sm:text-sm transition flex items-center justify-center gap-1.5">
-            <span>↺</span>
-            <span>다시 진단하기</span>
-          </button>
-        </div>
-
-        <!-- PWA install trigger button inside result view -->
-        <button id="pwaResultInstallBtn" onclick="triggerPwaInstall()" class="w-full py-2 px-3 rounded-lg bg-silk-gold/20 text-ink font-semibold text-xs border border-silk-gold/50 hover:bg-silk-gold/30 transition hidden">
-          📲 이 감결서를 스마트폰 바탕화면 앱으로 보관하기
+        <!-- PWA 설치 버튼 (지원 브라우저에서 자동 표시) -->
+        <button id="installPwaBtn" onclick="triggerPwaInstall()" class="hidden text-xs bg-[#9e2a2b] hover:bg-[#b83334] text-white px-2.5 py-1.5 rounded-lg font-bold shadow animate-pulse flex items-center space-x-1">
+          <span>📲</span>
+          <span class="text-[11px]">앱 설치</span>
         </button>
       </div>
+    </header>
 
-    </section>
+    <!-- 2. 주 콘텐츠 본문 영역 -->
+    <main class="p-4 sm:p-6 flex-1 flex flex-col justify-center">
 
-  </main>
+      <!-- ================= [화면 1: 시작 화면] ================= -->
+      <section id="screen-start" class="fade-in text-center py-4 flex flex-col items-center justify-center flex-1">
+        <div class="stamp-seal text-xs mb-3">奎章閣 戀情考 (규장각 연정고)</div>
+        <h2 class="text-3xl sm:text-4xl font-calli font-bold text-[#2d1810] tracking-wide mb-2 leading-tight">
+          그대의 연모하는 마음,<br><span class="text-[#9e2a2b]">어느 결</span>에 닿아 있는가
+        </h2>
+        <p class="text-xs sm:text-sm text-[#5d4638] font-serif-kr max-w-sm mb-6 leading-relaxed">
+          사랑할 때 사소한 기척에도 가슴이 타들어가는가, 아니면 혼자만의 높은 성채로 숨어버리는가? 
+          조선의 필치와 현대 심리학의 애착 척도(ECR)로 그대의 연애 본심을 비추어 봅니다.
+        </p>
 
-  <!-- Toast Notification Box -->
-  <div id="toastBox" class="fixed bottom-6 left-1/2 -translate-x-1/2 bg-ink text-hanji px-5 py-2.5 rounded-full text-xs font-medium shadow-2xl opacity-0 transition-opacity duration-300 pointer-events-none z-50 flex items-center gap-2 border border-silk-gold/40">
-    <span id="toastIcon">✨</span>
-    <span id="toastMsg">알림 메시지</span>
+        <!-- 4대 유형 미리보기 인포그래픽 뱃지 -->
+        <div class="grid grid-cols-2 gap-2 w-full max-w-xs mb-6 text-left">
+          <div class="bg-[#ece1cd] border border-[#c4b197] p-2.5 rounded-lg">
+            <span class="text-xs font-bold text-[#1e3a5f] block">🛡️ 태산반석형 (안정)</span>
+            <span class="text-[10px] text-[#6b584a]">솔직하고 온전한 믿음</span>
+          </div>
+          <div class="bg-[#ece1cd] border border-[#c4b197] p-2.5 rounded-lg">
+            <span class="text-xs font-bold text-[#9e2a2b] block">🕯️ 단심연모형 (불안)</span>
+            <span class="text-[10px] text-[#6b584a]">애정을 갈구하는 순정</span>
+          </div>
+          <div class="bg-[#ece1cd] border border-[#c4b197] p-2.5 rounded-lg">
+            <span class="text-xs font-bold text-[#2d4a3e] block">🏔️ 고고독야형 (거부회피)</span>
+            <span class="text-[10px] text-[#6b584a]">혼자만의 영역과 독립</span>
+          </div>
+          <div class="bg-[#ece1cd] border border-[#c4b197] p-2.5 rounded-lg">
+            <span class="text-xs font-bold text-[#5c3a21] block">🌊 빙산청류형 (공포회피)</span>
+            <span class="text-[10px] text-[#6b584a]">다가서다 뒷걸음치는 결</span>
+          </div>
+        </div>
+
+        <button onclick="startSurvey()" class="w-full max-w-xs py-3.5 bg-[#9e2a2b] hover:bg-[#852223] text-white font-calli text-lg font-bold rounded-xl shadow-lg hover:shadow-xl active:scale-95 transition tracking-widest border border-[#d97778]">
+          감결(感決) 시작하기 붓 들기
+        </button>
+
+        <!-- 이전 기록 열람 버튼 -->
+        <button id="viewHistoryBtn" onclick="openHistoryModal()" class="mt-3 text-xs text-[#6e503f] hover:text-[#2d1810] font-serif-kr underline flex items-center space-x-1">
+          <span>📜</span>
+          <span>지난 감결 보관함 열람 (<span id="historyCountBadge">0</span>)</span>
+        </button>
+      </section>
+
+
+      <!-- ================= [화면 2: 설문 진행 화면] ================= -->
+      <section id="screen-quiz" class="hidden fade-in flex-1 flex flex-col justify-between py-2">
+        <div>
+          <!-- 상단 진행도 헤더 -->
+          <div class="flex items-center justify-between text-xs text-[#664b38] font-serif-kr mb-2">
+            <span id="questionStepLabel" class="font-bold">제 1 조목 (1 / 12)</span>
+            <span id="dimensionBadge" class="bg-[#e4d5be] px-2 py-0.5 rounded text-[10px] text-[#823329] font-bold">불안 지수 考</span>
+          </div>
+
+          <!-- 프로그레스 바 -->
+          <div class="w-full bg-[#dfceb6] h-2 rounded-full overflow-hidden mb-6 border border-[#c9b79d]">
+            <div id="progressBar" class="bg-[#9e2a2b] h-full transition-all duration-300 rounded-full" style="width: 8.33%;"></div>
+          </div>
+
+          <!-- 질문 본문 카드 -->
+          <div class="bg-[#ede2cf] border border-[#cfbd9f] rounded-xl p-5 mb-5 shadow-sm">
+            <span class="text-xs font-calli text-[#9e2a2b] font-bold block mb-1">【 문답 조목 】</span>
+            <h3 id="questionText" class="text-lg sm:text-xl font-calli font-bold text-[#2d1b13] leading-relaxed break-keep">
+              질문 문항이 이곳에 표기됩니다.
+            </h3>
+          </div>
+
+          <!-- 5점 리커트 척도 선택지 -->
+          <div class="space-y-2.5">
+            <button onclick="handleAnswer(1)" class="likert-btn w-full p-3 bg-[#faf5ec] hover:bg-[#f1e6d2] border border-[#c7b499] rounded-xl text-left flex items-center justify-between text-xs sm:text-sm text-[#3b281c] font-serif-kr shadow-sm">
+              <span>① 전혀 그렇지 않다 (결코 내 마음이 아님)</span>
+              <span class="text-gray-400 text-xs">否</span>
+            </button>
+            <button onclick="handleAnswer(2)" class="likert-btn w-full p-3 bg-[#faf5ec] hover:bg-[#f1e6d2] border border-[#c7b499] rounded-xl text-left flex items-center justify-between text-xs sm:text-sm text-[#3b281c] font-serif-kr shadow-sm">
+              <span>② 별로 그렇지 않다 (대체로 드문 편)</span>
+              <span class="text-gray-400 text-xs">少</span>
+            </button>
+            <button onclick="handleAnswer(3)" class="likert-btn w-full p-3 bg-[#faf5ec] hover:bg-[#f1e6d2] border border-[#c7b499] rounded-xl text-left flex items-center justify-between text-xs sm:text-sm text-[#3b281c] font-serif-kr shadow-sm">
+              <span>③ 반반이다 (때에 따라 그러하기도 함)</span>
+              <span class="text-gray-400 text-xs">中</span>
+            </button>
+            <button onclick="handleAnswer(4)" class="likert-btn w-full p-3 bg-[#faf5ec] hover:bg-[#f1e6d2] border border-[#c7b499] rounded-xl text-left flex items-center justify-between text-xs sm:text-sm text-[#3b281c] font-serif-kr shadow-sm">
+              <span>④ 대체로 그러하다 (자주 마음에 밟힘)</span>
+              <span class="text-[#9e2a2b] text-xs font-bold">然</span>
+            </button>
+            <button onclick="handleAnswer(5)" class="likert-btn w-full p-3 bg-[#faf5ec] hover:bg-[#f1e6d2] border border-[#c7b499] rounded-xl text-left flex items-center justify-between text-xs sm:text-sm text-[#3b281c] font-serif-kr shadow-sm">
+              <span>⑤ 아주 깊이 그러하다 (참으로 내 모습임)</span>
+              <span class="text-[#9e2a2b] text-xs font-black">極</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="mt-4 text-center">
+          <button id="prevBtn" onclick="goToPrevQuestion()" class="hidden text-xs text-[#7c6351] hover:text-[#332014] underline font-serif-kr">
+            ← 앞선 조목으로 되돌아가기
+          </button>
+        </div>
+      </section>
+
+
+      <!-- ================= [화면 3: 결과 출력 화면] ================= -->
+      <section id="screen-result" class="hidden fade-in flex-1 py-1">
+        <div id="resultContentCard" class="bg-[#fcf8f0] border-2 border-[#4a3022] rounded-xl p-4 sm:p-5 shadow-md relative overflow-hidden">
+          
+          <!-- 상단 어명 직인 & 제목 -->
+          <div class="flex justify-between items-start border-b border-[#cca985] pb-3 mb-3">
+            <div>
+              <span class="text-[11px] font-serif-kr text-[#785945]">조선 규장각 애정지계 감결서</span>
+              <h2 id="resultTypeTitle" class="text-2xl sm:text-3xl font-calli font-black text-[#851e1f] mt-0.5">
+                유형 제목
+              </h2>
+              <span id="resultSubTitle" class="text-xs font-serif-kr text-[#553b2c] font-bold block mt-0.5">
+                현대 애착 유형명
+              </span>
+            </div>
+            <div class="stamp-seal text-xs">
+              御命<br>檢定
+            </div>
+          </div>
+
+          <!-- 지수 게이지 (불안도 / 회피도) -->
+          <div class="bg-[#f0e6d2] p-3 rounded-lg border border-[#d6c4a8] mb-3 space-y-2">
+            <div>
+              <div class="flex justify-between text-xs font-serif-kr mb-1">
+                <span class="font-bold text-[#851e1f]">연정 불안도 (상대 심려 지수)</span>
+                <span id="anxietyPercentLabel" class="font-bold text-[#851e1f]">0%</span>
+              </div>
+              <div class="w-full bg-[#ded1bd] h-2 rounded-full overflow-hidden">
+                <div id="anxietyBar" class="bg-[#9e2a2b] h-full transition-all duration-500" style="width: 0%;"></div>
+              </div>
+            </div>
+
+            <div>
+              <div class="flex justify-between text-xs font-serif-kr mb-1">
+                <span class="font-bold text-[#1d3557]">심중 회피도 (거리두기 지수)</span>
+                <span id="avoidancePercentLabel" class="font-bold text-[#1d3557]">0%</span>
+              </div>
+              <div class="w-full bg-[#ded1bd] h-2 rounded-full overflow-hidden">
+                <div id="avoidanceBar" class="bg-[#1d3557] h-full transition-all duration-500" style="width: 0%;"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 2차원 사분면 위치 시각화 캔버스 -->
+          <div class="mb-3 text-center">
+            <span class="text-[10px] text-[#6d5444] font-serif-kr block mb-1">▼ 2차원 심중 사분면 (붉은 점이 그대의 심려 위치)</span>
+            <div class="relative w-full max-w-[240px] aspect-square mx-auto bg-[#faf4e6] border border-[#a88d75] rounded-lg p-2 shadow-inner">
+              <svg id="quadrantSvg" class="w-full h-full" viewBox="0 0 200 200">
+                <!-- 사분면 배경 색상 구역 -->
+                <rect x="0" y="100" width="100" height="100" fill="#e8f4ea" opacity="0.6" /> <!-- 안정형 (좌하) -->
+                <rect x="0" y="0" width="100" height="100" fill="#fdeaea" opacity="0.6" />   <!-- 불안형 (좌상) -->
+                <rect x="100" y="100" width="100" height="100" fill="#e8eff9" opacity="0.6" /> <!-- 거부회피 (우하) -->
+                <rect x="100" y="0" width="100" height="100" fill="#fdf0e6" opacity="0.6" />   <!-- 공포회피 (우상) -->
+
+                <!-- 중심 십자축 -->
+                <line x1="0" y1="100" x2="200" y2="100" stroke="#b0967d" stroke-width="1.5" stroke-dasharray="3,3" />
+                <line x1="100" y1="0" x2="100" y2="200" stroke="#b0967d" stroke-width="1.5" stroke-dasharray="3,3" />
+
+                <!-- 축 텍스트 라벨 -->
+                <text x="100" y="14" font-size="9" fill="#851e1f" font-weight="bold" text-anchor="middle">불안 높음 ↑</text>
+                <text x="100" y="196" font-size="9" fill="#2d4a3e" font-weight="bold" text-anchor="middle">불안 낮음 ↓</text>
+                <text x="6" y="104" font-size="9" fill="#1e3a5f" font-weight="bold" text-anchor="start">← 친밀</text>
+                <text x="194" y="104" font-size="9" fill="#5c3a21" font-weight="bold" text-anchor="end">회피 →</text>
+
+                <!-- 내 위치 포인터 -->
+                <circle id="userDot" cx="100" cy="100" r="6" fill="#b91c1c" stroke="#ffffff" stroke-width="2" class="animate-pulse" />
+              </svg>
+            </div>
+          </div>
+
+          <!-- 심층 해설 카드들 -->
+          <div class="space-y-2.5 text-xs text-[#332218] font-serif-kr">
+            <div class="p-2.5 bg-[#f5ede0] rounded-lg border border-[#decbb3]">
+              <span class="font-bold text-[#851e1f] block mb-1">【 연모의 기품과 본태 】</span>
+              <p id="resultDescText" class="leading-relaxed"></p>
+            </div>
+
+            <div class="p-2.5 bg-[#f5ede0] rounded-lg border border-[#decbb3]">
+              <span class="font-bold text-[#b45309] block mb-1">【 경계해야 할 마음의 함정 】</span>
+              <p id="resultTrapText" class="leading-relaxed"></p>
+            </div>
+
+            <div class="p-2.5 bg-[#f5ede0] rounded-lg border border-[#decbb3]">
+              <span class="font-bold text-[#1e3a5f] block mb-1">【 백년해로를 위한 심중 비방 】</span>
+              <p id="resultPrescriptionText" class="leading-relaxed"></p>
+            </div>
+
+            <div class="p-2.5 bg-[#f5ede0] rounded-lg border border-[#decbb3] flex justify-between items-center text-[11px]">
+              <div>
+                <span class="font-bold text-green-800">찰떡 인연: </span>
+                <span id="bestMatchText"></span>
+              </div>
+              <div>
+                <span class="font-bold text-rose-800">살얼음 인연: </span>
+                <span id="worstMatchText"></span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- 하단 액션 버튼 바 -->
+        <div class="mt-4 space-y-2">
+          <div class="grid grid-cols-2 gap-2">
+            <button onclick="downloadResultImage()" class="py-2.5 bg-[#382319] hover:bg-[#4d3224] text-[#f7eedc] font-calli text-xs sm:text-sm font-bold rounded-xl border border-[#bfa58a] flex items-center justify-center space-x-1 shadow">
+              <span>🖼️</span>
+              <span>감결서 그림 저장</span>
+            </button>
+            <button onclick="copyShareLink()" class="py-2.5 bg-[#1d3557] hover:bg-[#284872] text-white font-calli text-xs sm:text-sm font-bold rounded-xl border border-[#457b9d] flex items-center justify-center space-x-1 shadow">
+              <span>🔗</span>
+              <span>결과 갈무리 공유</span>
+            </button>
+          </div>
+
+          <button onclick="restartSurvey()" class="w-full py-2 bg-[#f0e6d2] hover:bg-[#e4d5be] text-[#553b2c] font-calli text-xs sm:text-sm font-bold rounded-xl border border-[#c4af92] transition">
+            🔄 새로운 마음으로 다시 짚어보기
+          </button>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- 3. 하단 푸터 -->
+    <footer class="bg-[#382319] text-[#caa472] px-4 py-2.5 text-center text-[11px] font-serif-kr border-t border-[#caa472] flex justify-between items-center">
+      <span>조선 연찰록 戀察錄 · 한글날 기념</span>
+      <span class="text-[10px] text-[#9c7d5c]">심리학 성인 애착 이론(ECR) 기반</span>
+    </footer>
   </div>
 
-  <!-- iOS PWA Manual Guide Modal -->
-  <div id="iosInstallModal" class="hidden fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4">
-    <div class="bg-hanji-card p-6 rounded-2xl max-w-sm w-full border-2 border-silk-gold text-center relative shadow-2xl">
-      <button onclick="closeIosGuideModal()" class="absolute top-3 right-3 text-ink-muted text-lg">✕</button>
-      <div class="text-3xl mb-2">🍎</div>
-      <h3 class="font-bold font-calli text-ink text-lg mb-2">사파리(Safari) 앱 설치 안내</h3>
-      <p class="text-xs text-ink-muted leading-relaxed mb-4">
-        화면 하단의 <strong>공유 버튼 <span class="inline-block border px-1 rounded">⎋</span></strong>을 누른 후,<br/>
-        <strong>[홈 화면에 추가]</strong>를 누르시면 전용 앱으로 평생 간직할 수 있습니다!
-      </p>
-      <button onclick="closeIosGuideModal()" class="w-full py-2.5 bg-yeonji-red text-white text-xs font-bold rounded-xl shadow">
-        확인하였소
-      </button>
+  <!-- 지난 기록 모달 다이얼로그 -->
+  <div id="historyModal" class="hidden fixed inset-0 bg-black/60 backdrop-blur-xs flex items-center justify-center p-3 z-50">
+    <div class="bg-[#f7f0e3] border-2 border-[#54392b] rounded-2xl w-full max-w-md max-h-[85vh] flex flex-col overflow-hidden shadow-2xl">
+      <div class="bg-[#382319] text-[#f5ebd9] px-4 py-3 flex justify-between items-center border-b border-[#caa472]">
+        <h3 class="font-calli font-bold text-sm tracking-wider">📜 규장각 지난 감결 보관함</h3>
+        <button onclick="closeHistoryModal()" class="text-[#cca985] hover:text-white text-lg">✕</button>
+      </div>
+      
+      <div id="historyListContainer" class="p-4 overflow-y-auto space-y-2.5 flex-1">
+        <!-- 동적 렌더링 -->
+      </div>
+
+      <div class="p-3 bg-[#ede2cf] border-t border-[#d8c5aa] flex justify-between items-center text-xs">
+        <button onclick="clearAllHistory()" class="text-rose-800 hover:text-rose-950 font-serif-kr underline">
+          기록 전체 소각(삭제)
+        </button>
+        <button onclick="closeHistoryModal()" class="px-4 py-1.5 bg-[#4e3224] text-white rounded-lg font-calli">
+          닫기
+        </button>
+      </div>
     </div>
   </div>
 
-  <!-- Hidden Canvas for Certificate Card Rendering -->
-  <canvas id="exportCanvas" class="hidden"></canvas>
+  <!-- 숨겨진 캔버스 (감결서 고화질 이미지 생성용) -->
+  <canvas id="hiddenResultCanvas" width="800" height="1100" class="hidden"></canvas>
 
-  <footer class="w-full max-w-xl mx-auto text-center text-[11px] text-ink-muted/70 py-3">
-    조선 연찰록 • 한글날 기념 성인 애착유형(Attachment Style) 심학 감결서
-  </footer>
 
+  <!-- ================= Logic Script ================= -->
   <script>
-    /* ============================================================
-       1. Web Audio API Gayageum Pluck Synthesizer
-       ============================================================ */
+    /* ----------------------------------------------------
+       1. 질문 은행 (총 12문항 / 불안 6문항 + 회피 6문항)
+       - ECR 성인 애착 척도를 조선 시대 연애 화법으로 5지선다화
+    ---------------------------------------------------- */
+    const QUESTION_BANK = [
+      // [불안 축 - 문항 1~6]
+      {
+        id: 1,
+        axis: "anxiety",
+        title: "상대에게 전갈(연락)을 띄웠으나 한동안 회답이 없으면 온갖 불길한 생각이 꼬리를 물고 가슴이 타들어간다.",
+      },
+      {
+        id: 2,
+        axis: "anxiety",
+        title: "정인이 나를 향한 애정이 식었거나, 내가 홀로 더 많이 연모하고 있는 것은 아닌지 늘 마음을 졸인다.",
+      },
+      {
+        id: 3,
+        axis: "anxiety",
+        title: "작은 말투의 변화나 서먹한 눈빛 하나에도 '내가 무언가 노여움을 샀는가' 안절부절못한다.",
+      },
+      {
+        id: 4,
+        axis: "anxiety",
+        title: "서로 사랑하고 있음을 끊임없이 말과 글, 행동으로 확인받지 못하면 쉬이 외로움에 젖는다.",
+      },
+      {
+        id: 5,
+        axis: "anxiety",
+        title: "정인과 다툼이 일어났을 때, 당장 오해를 풀지 못하면 뜬눈으로 밤을 지새우며 괴로워한다.",
+      },
+      {
+        id: 6,
+        axis: "anxiety",
+        title: "상대가 다른 벗이나 동무들과 즐거워 보일 때, 나를 잊거나 소홀히 대할까 질투와 두려움이 인다.",
+      },
+
+      // [회피 축 - 문항 7~12]
+      {
+        id: 7,
+        axis: "avoidance",
+        title: "상대가 너무 깊숙이 내 속마음이나 사생활의 영역까지 캐묻고 들어오면 본능적으로 답답하여 물러선다.",
+      },
+      {
+        id: 8,
+        axis: "avoidance",
+        title: "마음의 슬픔이나 고단한 일이 닥쳤을 때, 정인에게 기대기보다 홀로 서책을 보거나 방안에서 삭이는 편이 편하다.",
+      },
+      {
+        id: 9,
+        axis: "avoidance",
+        title: "연모하는 사이일지라도 각자의 높은 성채(독립된 시간과 공간)는 엄격히 지켜져야 마땅하다.",
+      },
+      {
+        id: 10,
+        axis: "avoidance",
+        title: "상대가 과도한 애정 표현이나 헌신을 요구해 올 때, 고맙기보다는 빚을 진 듯 부담감이 앞선다.",
+      },
+      {
+        id: 11,
+        axis: "avoidance",
+        title: "갈등이나 언쟁이 격해지면, 마주 앉아 다투기보다 일단 자리를 피하여 침묵으로 시간을 흘려보낸다.",
+      },
+      {
+        id: 12,
+        axis: "avoidance",
+        title: "내 약점이나 못난 치부를 온전히 정인에게 드러내는 것은 훗날 상처가 될까 두려워 꺼려진다.",
+      }
+    ];
+
+    /* ----------------------------------------------------
+       2. 애착유형 해설 데이터사전 (4대 성향)
+    ---------------------------------------------------- */
+    const ATTACHMENT_TYPES = {
+      SECURE: {
+        code: "SECURE",
+        title: "태산반석형 (泰山磐石型)",
+        subTitle: "안정형 애착 (Secure Attachment)",
+        desc: "마음의 중심이 태산처럼 굳건하여, 상대를 온전히 신뢰하고 자신의 연정도 투명하게 표현하는 호위무사와 같은 품격입니다. 작은 풍파에 흔들리지 않으며 상대의 서운함도 부드럽게 감싸 안습니다.",
+        trap: "나의 마음이 편안하다 하여 상대의 불안한 눈빛이나 서툰 거리두기를 대수롭지 않게 여길 수 있으니, 그들의 연약한 결을 먼저 물어보아야 합니다.",
+        prescription: "늘 솔직 담백한 대화를 이끌어가되, 회피형에게는 숨 쉴 공간을, 불안형에게는 따스한 확언을 건네는 지혜를 발휘하십시오.",
+        bestMatch: "단심연모형 (불안형을 온화하게 안정시켜 줌)",
+        worstMatch: "극단적 고고독야형 (벽을 마주한 피로감)",
+        color: "#1e3a5f"
+      },
+      ANXIOUS: {
+        code: "ANXIOUS",
+        title: "단심연모형 (丹心戀慕型)",
+        subTitle: "불안형 애착 (Anxious-Preoccupied)",
+        desc: "붉은 단심이 활활 타오르는 순정파 시인의 기질입니다. 정인을 지극히 사랑하고 온 마음을 바치나, 상대의 작은 침묵에도 가슴에 궂은비가 내려 애정이 식었는지 끊임없이 연서의 화답을 갈구합니다.",
+        trap: "상대의 답장이 늦는 것은 바쁜 일상 때문이지 연정이 식은 것이 아닙니다. 혼자 상상의 나래를 펴며 감정의 파도를 키우지 않도록 경계하십시오.",
+        prescription: "연인 외에 서예, 무예, 서책 읽기 등 스스로 홀로 서는 '나만의 뜰'을 가꾸십시오. 침묵을 의심하지 말고 상대의 말을 있는 그대로 믿는 수련이 필요합니다.",
+        bestMatch: "태산반석형 (끝없는 온기로 불안을 녹여줌)",
+        worstMatch: "고고독야형 (밀어내고 집착하는 끝없는 추격전)",
+        color: "#9e2a2b"
+      },
+      DISMISSIVE: {
+        code: "DISMISSIVE",
+        title: "고고독야형 (孤高獨夜型)",
+        subTitle: "거부회피형 애착 (Dismissive-Avoidant)",
+        desc: "달빛 아래 홀로 칼을 벼리는 방랑 고수처럼, 누구에게도 빚지지 않고 독립성을 목숨처럼 지키는 유형입니다. 연인에게도 곁을 다 주지 않으며, 너무 가까이 다가오면 성문을 닫고 숨어버립니다.",
+        trap: "갈등이 생겼을 때 문을 걸어 잠그는 침묵(잠수)은 상대에게 비수가 됩니다. 혼자만의 시간이 필요할 때는 말없이 사라지지 말고 연유를 말해야 합니다.",
+        prescription: "'지금 혼자 생각할 시간이 반나절만 필요하오'라고 솔직히 알리고 숨을 고르십시오. 취약함을 보여도 당신의 성채는 무너지지 않습니다.",
+        bestMatch: "태산반석형 (서두르지 않고 성문을 열어줌)",
+        worstMatch: "단심연모형 (숨 막히는 구속으로 여겨짐)",
+        color: "#2d4a3e"
+      },
+      FEARFUL: {
+        code: "FEARFUL",
+        title: "빙산청류형 (氷山淸流型)",
+        subTitle: "공포/혼란회피형 애착 (Fearful-Avoidant)",
+        desc: "겉은 차가운 얼음 같으나 속은 뜨거운 눈물이 흐르는 암행어사의 심경입니다. 누구보다 깊은 연모를 꿈꾸지만, 다시 버려지거나 상처받을까 두려워 상대가 다가오면 먼저 가시를 세워 밀어냅니다.",
+        trap: "'어차피 나를 떠날 것'이라는 비관으로 상대를 시험에 들게 하지 마십시오. 밀어내고 나서 홀로 자책하는 악순환의 사슬을 끊어야 합니다.",
+        prescription: "과거의 상처는 지나간 바람입니다. 눈앞의 인연을 시험하지 말고, 두려운 감정 그 자체를 '내가 지금 상처받을까 겁이 나는구려'라고 정직하게 고백하십시오.",
+        bestMatch: "태산반석형 (바위처럼 변함없이 품어주는 안식처)",
+        worstMatch: "단심연모형 / 고고독야형 (서로에게 칼을 꽂는 상극)",
+        color: "#5c3a21"
+      }
+    };
+
+    /* ----------------------------------------------------
+       3. 상태 관리 변수
+    ---------------------------------------------------- */
+    let currentQuestionIndex = 0;
+    let userAnswers = {}; // { questionId: 1~5 }
     let audioContext = null;
-    let isAudioOn = true;
+    let isSoundOn = true;
+    let deferredPrompt = null;
 
-    function playGayageumSound(frequency = 330) {
-      if (!isAudioOn) return;
-      try {
+    /* ----------------------------------------------------
+       4. 가야금 5음계 오디오 합성 엔진 (Web Audio API)
+    ---------------------------------------------------- */
+    const GAYAGEUM_SCALE = [261.63, 293.66, 329.63, 392.00, 440.00, 523.25]; // 궁상각치우 오성(C, D, E, G, A, C)
+
+    function initAudioContext() {
+      if (!audioContext) {
         const AudioCtx = window.AudioContext || window.webkitAudioContext;
-        if (!audioContext) {
-          audioContext = new AudioCtx();
-        }
-        if (audioContext.state === 'suspended') {
-          audioContext.resume();
-        }
+        audioContext = new AudioCtx();
+      }
+      if (audioContext.state === 'suspended') {
+        audioContext.resume();
+      }
+    }
 
-        const now = audioContext.currentTime;
+    function playPluckSound(noteIndex = 2) {
+      if (!isSoundOn) return;
+      try {
+        initAudioContext();
         const osc = audioContext.createOscillator();
         const gain = audioContext.createGain();
-
-        // Plucked acoustic string emulation
+        
+        // 플럭(현악기 뜯는 소리) 감쇠 엔벨로프
+        const freq = GAYAGEUM_SCALE[noteIndex % GAYAGEUM_SCALE.length];
         osc.type = 'triangle';
-        osc.frequency.setValueAtTime(frequency, now);
-        // Subtle pitch bend like traditional bending (농현)
-        osc.frequency.exponentialRampToValueAtTime(frequency * 0.98, now + 0.35);
+        osc.frequency.setValueAtTime(freq, audioContext.currentTime);
 
-        gain.gain.setValueAtTime(0.32, now);
-        gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.55);
+        gain.gain.setValueAtTime(0.3, audioContext.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.45);
 
         osc.connect(gain);
         gain.connect(audioContext.destination);
 
-        osc.start(now);
-        osc.stop(now + 0.6);
+        osc.start();
+        osc.stop(audioContext.currentTime + 0.45);
       } catch (e) {
-        // Fallback silently if audio restricted
+        // 사운드 지원하지 않는 환경 대비
       }
     }
 
-    const pentatonicFrequencies = [261.63, 293.66, 329.63, 392.00, 440.00, 523.25, 587.33, 659.25];
-
-    function toggleWebAudio() {
-      isAudioOn = !isAudioOn;
-      const icon = document.getElementById('audioIcon');
-      const text = document.getElementById('audioText');
-      if (isAudioOn) {
-        icon.textContent = '🔊';
-        text.textContent = '가야금';
-        playGayageumSound(392);
-        showToast("청아한 가야금 선율이 켜졌습니다.");
-      } else {
-        icon.textContent = '🔇';
-        text.textContent = '소리끔';
-        showToast("효과음을 껐습니다.");
-      }
+    function toggleAudio() {
+      isSoundOn = !isSoundOn;
+      document.getElementById('soundIcon').innerText = isSoundOn ? '🔊' : '🔇';
+      document.getElementById('soundLabel').innerText = isSoundOn ? '선율 켬' : '선율 끔';
+      if (isSoundOn) playPluckSound(2);
     }
 
-    /* ============================================================
-       2. PWA Installation Triggers
-       ============================================================ */
-    let deferredPwaPrompt = null;
-    const pwaInstallBtn = document.getElementById('pwaInstallBtn');
-    const pwaBanner = document.getElementById('pwaBanner');
-    const pwaResultInstallBtn = document.getElementById('pwaResultInstallBtn');
-
+    /* ----------------------------------------------------
+       5. PWA 설치 및 Service Worker 처리
+    ---------------------------------------------------- */
     window.addEventListener('beforeinstallprompt', (e) => {
       e.preventDefault();
-      deferredPwaPrompt = e;
-      if (pwaInstallBtn) pwaInstallBtn.classList.remove('hidden');
-      if (pwaBanner) pwaBanner.classList.remove('hidden');
-      if (pwaResultInstallBtn) pwaResultInstallBtn.classList.remove('hidden');
-    });
-
-    window.addEventListener('appinstalled', () => {
-      deferredPwaPrompt = null;
-      if (pwaInstallBtn) pwaInstallBtn.classList.add('hidden');
-      if (pwaBanner) pwaBanner.classList.add('hidden');
-      if (pwaResultInstallBtn) pwaResultInstallBtn.classList.add('hidden');
-      showToast("조선 연찰록 앱이 바탕화면에 설치되었습니다!");
+      deferredPrompt = e;
+      const installBtn = document.getElementById('installPwaBtn');
+      if (installBtn) installBtn.classList.remove('hidden');
     });
 
     function triggerPwaInstall() {
-      if (deferredPwaPrompt) {
-        deferredPwaPrompt.prompt();
-        deferredPwaPrompt.userChoice.then((choice) => {
-          if (choice.outcome === 'accepted') {
-            showToast("설치를 진행합니다.");
+      if (deferredPrompt) {
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.then((choiceResult) => {
+          if (choiceResult.outcome === 'accepted') {
+            document.getElementById('installPwaBtn').classList.add('hidden');
           }
-          deferredPwaPrompt = null;
+          deferredPrompt = null;
         });
       } else {
-        const isIos = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-        if (isIos) {
-          document.getElementById('iosInstallModal').classList.remove('hidden');
+        alert("이 기기 브라우저 메뉴의 [홈 화면에 추가] 또는 [앱 설치]를 눌러 언제든 오프라인 앱으로 소장하실 수 있습니다.");
+      }
+    }
+
+    // 서비스 워커 등록 (오프라인 캐싱)
+    if ('serviceWorker' in navigator) {
+      const swCode = `
+        const CACHE_NAME = 'choseon-love-v2';
+        self.addEventListener('install', (e) => {
+          self.skipWaiting();
+        });
+        self.addEventListener('activate', (e) => {
+          e.waitUntil(clients.claim());
+        });
+        self.addEventListener('fetch', (e) => {
+          e.respondWith(
+            fetch(e.request).catch(() => caches.match(e.request))
+          );
+        });
+      `;
+      const swBlob = new Blob([swCode], { type: 'application/javascript' });
+      const swUrl = URL.createObjectURL(swBlob);
+      navigator.serviceWorker.register(swUrl).catch(() => {});
+    }
+
+    /* ----------------------------------------------------
+       6. 퀴즈 플로우 & 계산 로직
+    ---------------------------------------------------- */
+    function startSurvey() {
+      playPluckSound(0);
+      currentQuestionIndex = 0;
+      userAnswers = {};
+      
+      document.getElementById('screen-start').classList.add('hidden');
+      document.getElementById('screen-result').classList.add('hidden');
+      document.getElementById('screen-quiz').classList.remove('hidden');
+
+      renderCurrentQuestion();
+    }
+
+    function renderCurrentQuestion() {
+      const q = QUESTION_BANK[currentQuestionIndex];
+      const total = QUESTION_BANK.length;
+
+      document.getElementById('questionStepLabel').innerText = `제 ${currentQuestionIndex + 1} 조목 (${currentQuestionIndex + 1} / ${total})`;
+      document.getElementById('dimensionBadge').innerText = q.axis === 'anxiety' ? '불안 지수 考 (애정의 염려)' : '회피 지수 考 (마음의 거리)';
+      document.getElementById('dimensionBadge').className = q.axis === 'anxiety' 
+        ? 'bg-[#fdeaea] px-2 py-0.5 rounded text-[10px] text-[#9e2a2b] font-bold border border-[#f5c2c2]' 
+        : 'bg-[#e8eff9] px-2 py-0.5 rounded text-[10px] text-[#1d3557] font-bold border border-[#bfd4ee]';
+
+      document.getElementById('progressBar').style.width = `${((currentQuestionIndex + 1) / total) * 100}%`;
+      document.getElementById('questionText').innerText = q.title;
+
+      const prevBtn = document.getElementById('prevBtn');
+      if (currentQuestionIndex > 0) {
+        prevBtn.classList.remove('hidden');
+      } else {
+        prevBtn.classList.add('hidden');
+      }
+    }
+
+    function handleAnswer(score) {
+      const q = QUESTION_BANK[currentQuestionIndex];
+      userAnswers[q.id] = score;
+      playPluckSound(score);
+
+      if (currentQuestionIndex < QUESTION_BANK.length - 1) {
+        currentQuestionIndex++;
+        renderCurrentQuestion();
+      } else {
+        calculateAndShowResult();
+      }
+    }
+
+    function goToPrevQuestion() {
+      if (currentQuestionIndex > 0) {
+        currentQuestionIndex--;
+        renderCurrentQuestion();
+      }
+    }
+
+    /* ----------------------------------------------------
+       7. 결과 판정 및 시각화
+    ---------------------------------------------------- */
+    function calculateAndShowResult(savedResult = null) {
+      let anxietyPercent, avoidancePercent, typeKey;
+
+      if (savedResult) {
+        // 저장된 기록에서 불러올 때
+        anxietyPercent = savedResult.anxietyPercent;
+        avoidancePercent = savedResult.avoidancePercent;
+        typeKey = savedResult.typeKey;
+      } else {
+        // 새로 검사하여 계산할 때
+        let anxietySum = 0;
+        let avoidanceSum = 0;
+
+        QUESTION_BANK.forEach(q => {
+          const score = userAnswers[q.id] || 3;
+          if (q.axis === 'anxiety') anxietySum += score;
+          if (q.axis === 'avoidance') avoidanceSum += score;
+        });
+
+        // 6문항 * 1점(최소 6점) ~ 5점(최대 30점) -> 0% ~ 100% 환산
+        anxietyPercent = Math.round(((anxietySum - 6) / 24) * 100);
+        avoidancePercent = Math.round(((avoidanceSum - 6) / 24) * 100);
+
+        // 사분면 기준선 (중간값 50%)
+        const isHighAnxiety = anxietyPercent >= 50;
+        const isHighAvoidance = avoidancePercent >= 50;
+
+        if (!isHighAnxiety && !isHighAvoidance) {
+          typeKey = "SECURE";    // 안정형
+        } else if (isHighAnxiety && !isHighAvoidance) {
+          typeKey = "ANXIOUS";   // 불안형
+        } else if (!isHighAnxiety && isHighAvoidance) {
+          typeKey = "DISMISSIVE";// 거부회피형
         } else {
-          showToast("브라우저 오른쪽 상단 메뉴에서 [홈 화면에 추가] 또는 [설치]를 눌러주시오.");
+          typeKey = "FEARFUL";   // 공포/혼란회피형
         }
-      }
-    }
 
-    function dismissBanner() {
-      if (pwaBanner) pwaBanner.classList.add('hidden');
-    }
-
-    function closeIosGuideModal() {
-      document.getElementById('iosInstallModal').classList.add('hidden');
-    }
-
-    /* ============================================================
-       3. 10 Balanced Love Attachment Diagnostic Questions
-          - 5 Anxiety Axis Questions (불안 0 or 1)
-          - 5 Avoidance Axis Questions (회피 0 or 1)
-       ============================================================ */
-    const loveQuestions = [
-      // 1. Anxiety Q1: 연락 지연
-      {
-        axis: "anxiety",
-        category: "애정 불안 지표 (애타는 마음)",
-        prompt: "정인에게 인편으로 띄운 연서(답장)가 하루가 지나도록 당도하지 않을 때 나는?",
-        choiceA: {
-          text: "\"혹여 나에게 마음이 식었거나 노여운 일이 있는가?\" 불안하여 온종일 손에 일이 잡히지 않는다.",
-          score: 1 // High Anxiety
-        },
-        choiceB: {
-          text: "\"고을에 급한 나랏일이 생겼거나 피치 못할 사정이 있겠지.\" 무던하게 내 할 일을 하며 기다린다.",
-          score: 0 // Low Anxiety
-        }
-      },
-      // 2. Avoidance Q1: 속마음 털어놓기
-      {
-        axis: "avoidance",
-        category: "애정 회피 지표 (거리 두는 마음)",
-        prompt: "마음에 남모를 큰 근심이나 슬픔이 생겼을 때, 정인에게 나의 속내를 대하는 태도는?",
-        choiceA: {
-          text: "나의 가장 여리고 부끄러운 상처라도 정인에게 솔직히 털어놓고 의지할 때 큰 위로를 얻는다.",
-          score: 0 // Low Avoidance
-        },
-        choiceB: {
-          text: "남에게 약한 모습을 보이는 것이 껄끄러워, 내 문제는 스스로 삭히고 적당히 거리를 둔다.",
-          score: 1 // High Avoidance
-        }
-      },
-      // 3. Anxiety Q2: 미묘한 태도 변화
-      {
-        axis: "anxiety",
-        category: "애정 불안 지표 (애타는 마음)",
-        prompt: "오늘따라 정인의 목소리와 눈빛이 평소보다 다소 서늘하게 느껴진다면?",
-        choiceA: {
-          text: "\"내가 어제 무언가 실언을 하였는가?\" 온갖 기억을 되짚으며 안절부절못하고 안색을 살핀다.",
-          score: 1 // High Anxiety
-        },
-        choiceB: {
-          text: "\"오늘 몸이 고단하거나 바깥일로 피곤한가 보다.\" 대수롭지 않게 넘기고 편히 쉬게 해 준다.",
-          score: 0 // Low Anxiety
-        }
-      },
-      // 4. Avoidance Q2: 혼자만의 시공간
-      {
-        axis: "avoidance",
-        category: "애정 회피 지표 (거리 두는 마음)",
-        prompt: "정인이 매일 같이 있기를 바라며 나의 모든 일정과 시간을 함께하고자 할 때 나는?",
-        choiceA: {
-          text: "사랑하는 사이라면 당연히 온종일 함께 붙어 있을수록 행복하고 정이 깊어진다고 여긴다.",
-          score: 0 // Low Avoidance
-        },
-        choiceB: {
-          text: "숨이 턱 막히고 내 고유한 서재와 사색의 영역을 침범당하는 듯하여 부담스럽고 도망치고 싶다.",
-          score: 1 // High Avoidance
-        }
-      },
-      // 5. Anxiety Q3: 사랑의 확신 갈구
-      {
-        axis: "anxiety",
-        category: "애정 불안 지표 (애타는 마음)",
-        prompt: "정인과 깊은 연정을 나누는 중에도 불현듯 스치는 생각은?",
-        choiceA: {
-          text: "\"과연 이 사람이 나를 진심으로 평생 연모할까?\" 끊임없이 다정한 말과 확답을 확인받고 싶다.",
-          score: 1 // High Anxiety
-        },
-        choiceB: {
-          text: "우리의 신뢰는 이미 단단하니, 굳이 말로 매일 캐묻지 않아도 서로의 진심을 온전히 믿는다.",
-          score: 0 // Low Anxiety
-        }
-      },
-      // 6. Avoidance Q3: 다툼 직후의 본능
-      {
-        axis: "avoidance",
-        category: "애정 회피 지표 (거리 두는 마음)",
-        prompt: "정인과 사소한 말다툼이 격해져 언성이 높아졌을 때 나의 본능적인 대처는?",
-        choiceA: {
-          text: "서운하더라도 자리를 피하지 않고 그 자리에서 대화로 풀며 바로 오해를 풀고 싶다.",
-          score: 0 // Low Avoidance
-        },
-        choiceB: {
-          text: "더 이야기해 봤자 감정만 상하니, 방문을 걸어 잠그거나 당장 자리를 피해 혼자 있고 싶다.",
-          score: 1 // High Avoidance
-        }
-      },
-      // 7. Anxiety Q4: 이별에 대한 공포
-      {
-        axis: "anxiety",
-        category: "애정 불안 지표 (애타는 마음)",
-        prompt: "정인이 조금만 나와 떨어져 먼 유람을 떠나거나 연락이 닿기 어려워지면?",
-        choiceA: {
-          text: "나를 잊고 새 사람을 만나진 않을까 가슴이 시리고 버려질 것 같은 깊은 공포가 밀려온다.",
-          score: 1 // High Anxiety
-        },
-        choiceB: {
-          text: "보고 싶은 그리움은 크지만, 서로의 길을 응원하며 묵묵히 다시 만날 날을 기약한다.",
-          score: 0 // Low Anxiety
-        }
-      },
-      // 8. Avoidance Q4: 관계의 진전과 얽힘
-      {
-        axis: "avoidance",
-        category: "애정 회피 지표 (거리 두는 마음)",
-        prompt: "정인과 혼담이 오가거나 서로의 삶이 너무 깊숙이 얽혀 책임이 커지기 시작할 때 드는 솔직한 기분은?",
-        choiceA: {
-          text: "비로소 둘이 하나가 되어 평생을 함께할 든든한 보금자리를 얻은 듯 가슴이 벅차다.",
-          score: 0 // Low Avoidance
-        },
-        choiceB: {
-          text: "나의 자유로운 날개가 꺾이고 평생 족쇄에 얽매이는 것은 아닌지 슬그머니 물러서고 싶다.",
-          score: 1 // High Avoidance
-        }
-      },
-      // 9. Anxiety Q5: 서운함 표현 방식
-      {
-        axis: "anxiety",
-        category: "애정 불안 지표 (애타는 마음)",
-        prompt: "정인에게 섭섭한 감정이 생겼을 때 나의 태도는?",
-        choiceA: {
-          text: "일부러 토라지거나 쌀쌀맞게 굴어 상대가 내 서운함을 먼저 알아채고 매달려 주길 바란다.",
-          score: 1 // High Anxiety
-        },
-        choiceB: {
-          text: "\"그대의 이러이러한 처신에 내 마음이 조금 상하였소\" 담담하게 내 마음을 분명히 말한다.",
-          score: 0 // Low Anxiety
-        }
-      },
-      // 10. Avoidance Q5: 과도한 애정 공세에 대한 반응
-      {
-        axis: "avoidance",
-        category: "애정 회피 지표 (거리 두는 마음)",
-        prompt: "정인이 나에게 헌신적인 사랑과 눈물 어린 애정을 쏟아부으며 다가올 때 나의 내면은?",
-        choiceA: {
-          text: "그 뜨거운 사랑이 너무나 감사하고 나 또한 온 마음을 다해 아낌없이 돌려주고 싶다.",
-          score: 0 // Low Avoidance
-        },
-        choiceB: {
-          text: "어쩐지 감당하기 벅차고 빚을 지는 듯 불편하여 슬그머니 반 보 뒤로 물러서게 된다.",
-          score: 1 // High Avoidance
-        }
-      }
-    ];
-
-    /* ============================================================
-       4. Complete 4 Archetypes Rich Database (Korean & Psychology)
-       ============================================================ */
-    const loveArchetypes = {
-      // 1. 불안 낮음 (0~2) & 회피 낮음 (0~2)
-      "SECURE": {
-        code: "SECURE",
-        styleName: "안정 애착 (Secure)",
-        title: "태산반석형 (泰山盤石)",
-        subtitle: "흔들림 없이 정인을 든든히 품어주는 충직한 호위무사",
-        colorClass: "text-jade-green",
-        bgClass: "bg-emerald-50 text-jade-green border-emerald-300",
-        svg: `
-          <svg viewBox="0 0 100 100" class="w-20 h-20">
-            <circle cx="50" cy="50" r="42" fill="#E8F4F0" stroke="#2F5A4E" stroke-width="2.5"/>
-            <!-- Traditional Shield / Robe Guardian Motif -->
-            <path d="M50 18 L76 30 C76 60 50 82 50 82 C50 82 24 60 24 30 Z" fill="#2F5A4E" opacity="0.9"/>
-            <!-- Heart in center -->
-            <path d="M50 38 C46 32 38 34 38 42 C38 52 50 62 50 62 C50 62 62 52 62 42 C62 34 54 32 50 38 Z" fill="#E5C778"/>
-          </svg>
-        `,
-        badges: ["#신뢰의기둥", "#솔직담백", "#감정조절달인", "#마음의평화"],
-        description: `그대의 애정은 천 년을 굳건히 버틴 소나무와 태산반석과 같습니다.
-상대방을 의심하여 속을 태우지도 않고, 친밀해지는 것이 두려워 도망치지도 않습니다. 서운한 일이 있으면 솔직하고 온화하게 말로 풀어내며, 정인이 혼자만의 시간을 필요로 할 때도 너그럽게 품어줄 줄 아는 가장 성숙하고 복된 사랑꾼입니다.`,
-        poison: "상대방도 나와 같이 건강하게 문제를 풀 것이라는 지나친 기대로 인해, 불안형의 애원이나 회피형의 잠수를 '무책임한 태도'로만 여겨 대화를 포기할 수 있습니다.",
-        prescription: "그대의 단단한 신뢰는 상대방의 불안과 상처까지 치유하는 영약입니다. 상처 입은 정인에게 먼저 손을 내밀고 안심시켜 주면 그대는 상대의 평생 안식처가 될 것입니다.",
-        best: "태산반석형 (안정형) 또는 그대의 온기로 녹여낼 수 있는 모든 유형",
-        worst: "마음을 꽁꽁 닫고 소통을 거부하는 극단적 회피형"
-      },
-
-      // 2. 불안 높음 (3~5) & 회피 낮음 (0~2)
-      "ANXIOUS": {
-        code: "ANXIOUS",
-        styleName: "불안 애착 (Anxious-Preoccupied)",
-        title: "단심연모형 (丹心戀慕)",
-        subtitle: "온 마음을 붉게 불태우는 애절한 불꽃 연가 시인",
-        colorClass: "text-yeonji-red",
-        bgClass: "bg-rose-50 text-yeonji-red border-rose-300",
-        svg: `
-          <svg viewBox="0 0 100 100" class="w-20 h-20">
-            <circle cx="50" cy="50" r="42" fill="#FDF0F1" stroke="#9E3039" stroke-width="2.5"/>
-            <!-- Burning flame & Letter motif -->
-            <path d="M50 20 C60 35 75 42 70 60 C65 76 50 82 50 82 C50 82 35 76 30 60 C25 42 40 35 50 20 Z" fill="#9E3039" opacity="0.85"/>
-            <path d="M50 38 C56 46 64 50 60 62 C58 70 50 74 50 74 C50 74 42 70 40 62 C36 50 44 46 50 38 Z" fill="#DFBF73"/>
-          </svg>
-        `,
-        badges: ["#일편단심", "#열정사랑", "#밤샘연서", "#애정확인필수"],
-        description: `그대의 가슴속에는 한 번 불붙으면 꺼지지 않는 애절한 봉화가 타오르고 있습니다.
-정인에게 나의 모든 것을 바쳐 헌신하지만, 그만큼 상대의 사소한 눈빛과 한마디에도 가슴이 덜컥 내려앉습니다. \"정인이 나를 덜 사랑하면 어쩌지?\"라는 두려움 때문에 끊임없이 애정을 확인하고 싶어 하며, 사랑할 때 세상의 중심이 온통 상대방으로 가득 찹니다.`,
-        poison: "서운함이 들 때 솔직히 말하기보다 토라짐, 침묵, 혹은 과도한 연락으로 상대방을 시험하려 드는 마음의 요동.",
-        prescription: "정인의 사랑을 의심하기 전에 내 안의 촛불부터 보살피시오. 상대가 잠시 바쁘거나 침묵하는 것은 나를 싫어해서가 아닙니다. 내 취미와 일상을 굳건히 세울 때 사랑도 평온해집니다.",
-        best: "언제나 다정하게 안심시켜 주는 태산반석형 (안정형)",
-        worst: "가까워질수록 뒷걸음질 치는 고고독야형 (거부회피형) -> 지옥의 불안-회피 굴레"
-      },
-
-      // 3. 불안 낮음 (0~2) & 회피 높음 (3~5)
-      "DISMISSIVE": {
-        code: "DISMISSIVE",
-        styleName: "거부회피 애착 (Dismissive-Avoidant)",
-        title: "고고독야형 (孤高獨野)",
-        subtitle: "바람처럼 홀로 당당한 산속 방랑 은둔 고수",
-        colorClass: "text-cheongja-blue",
-        bgClass: "bg-blue-50 text-cheongja-blue border-blue-300",
-        svg: `
-          <svg viewBox="0 0 100 100" class="w-20 h-20">
-            <circle cx="50" cy="50" r="42" fill="#EEF4F8" stroke="#2D4B66" stroke-width="2.5"/>
-            <!-- Solitary Falcon / Cloud Bamboo -->
-            <path d="M22 65 C40 40 60 40 78 65 C68 55 58 50 50 50 C42 50 32 55 22 65 Z" fill="#2D4B66"/>
-            <circle cx="50" cy="35" r="10" fill="#B2823D"/>
-            <path d="M50 48 L50 80" stroke="#2D4B66" stroke-width="3"/>
-          </svg>
-        `,
-        badges: ["#자유로운영혼", "#철벽자주독립", "#내영역사수", "#감정표현어색"],
-        description: `그대는 첩첩산중을 홀로 누비는 고고한 학과 같습니다.
-남에게 기대지도 않고 남이 나에게 과도하게 기대는 것도 극도로 꺼립니다. 정인을 진심으로 연모하더라도 나의 고유한 사색의 시간과 개인적인 영역이 보장되지 않으면 숨이 막힙니다. 갈등이 생기면 논쟁하기보다 동굴 속으로 들어가 혼자 감정을 정리하는 것이 편합니다.`,
-        poison: "\"나는 아무도 필요 없다\"며 감정을 억누르고, 정인의 따뜻한 보살핌을 '나를 옥죄는 간섭'으로 오해하여 밀어내는 벽.",
-        prescription: "정인에게 마음의 문을 반 뼘만 열어보시오. 약점을 보인다고 해서 그대의 자유가 사라지는 것이 아닙니다. 동굴로 들어가고 싶을 땐 \"지금은 생각이 필요하니 사흘 뒤에 이야기하자\"고 미리 일러주는 것만으로도 상대는 안심합니다.",
-        best: "집착 없이 묵묵히 내 공간을 존중해 주는 태산반석형 (안정형)",
-        worst: "하루에도 열두 번 애정을 확인하려 드는 단심연모형 (불안형)"
-      },
-
-      // 4. 불안 높음 (3~5) & 회피 높음 (3~5)
-      "FEARFUL": {
-        code: "FEARFUL",
-        styleName: "혼란/공포회피 애착 (Fearful-Avoidant)",
-        title: "빙산청류형 (氷山淸流)",
-        subtitle: "겉은 차가운 서릿발 속은 눈물겨운 옹달샘 사랑꾼",
-        colorClass: "text-[#8338EC]",
-        bgClass: "bg-purple-50 text-[#8338EC] border-purple-300",
-        svg: `
-          <svg viewBox="0 0 100 100" class="w-20 h-20">
-            <circle cx="50" cy="50" r="42" fill="#F6F0FE" stroke="#8338EC" stroke-width="2.5"/>
-            <!-- Dual Ice & Tears motif -->
-            <path d="M50 18 L72 45 L50 82 L28 45 Z" fill="#8338EC" opacity="0.3"/>
-            <path d="M50 28 L64 48 L50 72 L36 48 Z" fill="#8338EC" opacity="0.85"/>
-            <circle cx="50" cy="50" r="6" fill="#DFBF73"/>
-          </svg>
-        `,
-        badges: ["#겉차속따", "#상처두려움", "#다가오면도망", "#밀어내면애타는"],
-        description: `그대의 마음은 꽁꽁 언 얼음장 밑으로 뜨거운 용암이 흐르는 형국입니다.
-누구보다 정인의 따뜻한 품을 간절히 갈망하지만, 동시에 \"결국 내게 깊은 상처를 주고 떠나겠지\"라는 공포가 자리 잡고 있습니다. 상대가 다가오면 두려워 먼저 밀어내고, 상대가 멀어지면 버려질까 애가 타는 '가시투성이 고슴도치'의 슬픈 연정을 품고 있습니다.`,
-        poison: "내가 먼저 상처받기 싫어서 가장 소중한 사람을 먼저 가시로 찔러 밀어내 버리는 자포자기의 방어기제.",
-        prescription: "그대의 과거 상처는 그대의 잘못이 아닙니다. 지금 눈앞의 정인은 그대를 해치려는 자가 아닙니다. 두려움이 엄습할 때 밀어내는 대신 \"지금 내가 상처받을까 조금 무섭소\"라고 용기 내어 털어놓아 보시오. 진정한 봄날이 올 것입니다.",
-        best: "어떤 변덕과 두려움에도 묵묵히 곁을 지키는 태산반석형 (안정형)",
-        worst: "함께 혼란 속으로 빠져드는 빙산청류형 (동일 혼란형)"
-      }
-    };
-
-    /* ============================================================
-       5. Diagnostic Engine State & Handlers
-       ============================================================ */
-    let currentQIndex = 0;
-    let anxietyScore = 0;   // 0 ~ 5
-    let avoidanceScore = 0; // 0 ~ 5
-    let currentArchetypeResult = null;
-
-    function startLoveQuiz() {
-      // Warm up Web Audio
-      playGayageumSound(261.63);
-
-      currentQIndex = 0;
-      anxietyScore = 0;
-      avoidanceScore = 0;
-
-      document.getElementById('startScreen').classList.add('hidden');
-      document.getElementById('resultScreen').classList.add('hidden');
-      document.getElementById('quizScreen').classList.remove('hidden');
-      document.getElementById('quizScreen').classList.add('fade-panel');
-
-      renderLoveQuestion();
-    }
-
-    function renderLoveQuestion() {
-      const q = loveQuestions[currentQIndex];
-      const progress = Math.round(((currentQIndex + 1) / loveQuestions.length) * 100);
-
-      document.getElementById('questionStepText').textContent = `제 ${currentQIndex + 1} 문항 / 총 ${loveQuestions.length}문`;
-      document.getElementById('dimensionPill').textContent = q.category;
-      document.getElementById('progressPercent').textContent = `${progress}%`;
-      document.getElementById('progressBar').style.width = `${progress}%`;
-
-      document.getElementById('questionPrompt').textContent = q.prompt;
-      document.getElementById('choiceAText').textContent = q.choiceA.text;
-      document.getElementById('choiceBText').textContent = q.choiceB.text;
-
-      // Card animation refresh
-      const panel = document.getElementById('quizScreen');
-      panel.classList.remove('fade-panel');
-      void panel.offsetWidth;
-      panel.classList.add('fade-panel');
-    }
-
-    function chooseLoveOption(choiceKey) {
-      const q = loveQuestions[currentQIndex];
-      const selectedChoice = choiceKey === 'A' ? q.choiceA : q.choiceB;
-
-      // Tally Anxiety / Avoidance
-      if (q.axis === 'anxiety') {
-        anxietyScore += selectedChoice.score;
-      } else if (q.axis === 'avoidance') {
-        avoidanceScore += selectedChoice.score;
-      }
-
-      // Play traditional pentatonic note
-      const noteFreq = pentatonicFrequencies[currentQIndex % pentatonicFrequencies.length];
-      playGayageumSound(noteFreq);
-
-      if (currentQIndex < loveQuestions.length - 1) {
-        currentQIndex++;
-        setTimeout(() => {
-          renderLoveQuestion();
-        }, 120);
-      } else {
-        setTimeout(() => {
-          evaluateLoveResult();
-        }, 200);
-      }
-    }
-
-    /* ============================================================
-       6. 2D Quadrant Evaluation & Visualization
-       ============================================================ */
-    function evaluateLoveResult() {
-      // Anxiety: 0~2 Low, 3~5 High (Cutoff: >= 3)
-      // Avoidance: 0~2 Low, 3~5 High (Cutoff: >= 3)
-      const isAnxietyHigh = anxietyScore >= 3;
-      const isAvoidanceHigh = avoidanceScore >= 3;
-
-      let determinedKey = "SECURE";
-      if (!isAnxietyHigh && !isAvoidanceHigh) {
-        determinedKey = "SECURE";    // 안정형
-      } else if (isAnxietyHigh && !isAvoidanceHigh) {
-        determinedKey = "ANXIOUS";   // 불안형
-      } else if (!isAnxietyHigh && isAvoidanceHigh) {
-        determinedKey = "DISMISSIVE"; // 거부회피형
-      } else {
-        determinedKey = "FEARFUL";    // 공포회피/혼란형
-      }
-
-      currentArchetypeResult = loveArchetypes[determinedKey];
-
-      // Final celebratory pluck sound
-      playGayageumSound(587.33);
-
-      // 1. Title & Headers
-      const badge = document.getElementById('resultStyleBadge');
-      badge.textContent = currentArchetypeResult.styleName;
-      badge.className = `inline-block text-xs font-bold tracking-wider px-3.5 py-0.5 rounded-full mb-1.5 border shadow-sm ${currentArchetypeResult.bgClass}`;
-
-      document.getElementById('resultArchetypeTitle').textContent = currentArchetypeResult.title;
-      document.getElementById('resultArchetypeSubtitle').textContent = currentArchetypeResult.subtitle;
-      document.getElementById('resultArchetypeSubtitle').className = `text-xs sm:text-sm font-semibold ${currentArchetypeResult.colorClass}`;
-
-      // 2. SVG Character
-      document.getElementById('characterSvgContainer').innerHTML = currentArchetypeResult.svg;
-
-      // 3. Feature Badges
-      const badgesContainer = document.getElementById('koreanFeatureBadges');
-      badgesContainer.innerHTML = currentArchetypeResult.badges.map(b => 
-        `<span class="px-2.5 py-0.5 rounded-full bg-[#EFE7D7] text-ink-muted border border-hwangto-gold/30 text-[11px] font-medium">${b}</span>`
-      ).join('');
-
-      // 4. Numeric Percentages & Progress Meters (Max 5 points)
-      const anxietyPct = Math.round((anxietyScore / 5) * 100);
-      const avoidancePct = Math.round((avoidanceScore / 5) * 100);
-
-      document.getElementById('anxietyScoreText').textContent = `${anxietyPct}% (${isAnxietyHigh ? '높음' : '낮음'})`;
-      document.getElementById('anxietyBar').style.width = `${Math.max(anxietyPct, 6)}%`;
-
-      document.getElementById('avoidanceScoreText').textContent = `${avoidancePct}% (${isAvoidanceHigh ? '높음' : '낮음'})`;
-      document.getElementById('avoidanceBar').style.width = `${Math.max(avoidancePct, 6)}%`;
-
-      // 5. Quadrant Coordinate Dot Position Calculation
-      // Avoidance is X-axis: 0% (Left) to 100% (Right)
-      // Anxiety is Y-axis: 0% (Bottom) to 100% (Top) -> top position = (100 - anxietyPct)%
-      const dotX = Math.min(Math.max(avoidancePct, 10), 90);
-      const dotY = Math.min(Math.max(100 - anxietyPct, 10), 90);
-
-      const dotEl = document.getElementById('userCoordinateDot');
-      dotEl.style.left = `${dotX}%`;
-      dotEl.style.top = `${dotY}%`;
-
-      // 6. Descriptions, Poison, Prescriptions, Matches
-      document.getElementById('resultLoveStory').textContent = currentArchetypeResult.description;
-      document.getElementById('resultLovePoison').textContent = currentArchetypeResult.poison;
-      document.getElementById('resultLovePrescription').textContent = currentArchetypeResult.prescription;
-      document.getElementById('bestLoveMatch').textContent = currentArchetypeResult.best;
-      document.getElementById('worstLoveMatch').textContent = currentArchetypeResult.worst;
-
-      // Swap views
-      document.getElementById('quizScreen').classList.add('hidden');
-      document.getElementById('resultScreen').classList.remove('hidden');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    function restartLoveQuiz() {
-      playGayageumSound(329.63);
-      document.getElementById('resultScreen').classList.add('hidden');
-      document.getElementById('startScreen').classList.remove('hidden');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    /* ============================================================
-       7. Sharing, Clipboard & Canvas Certificate Card Export
-       ============================================================ */
-    function shareOrCopyLoveResult() {
-      if (!currentArchetypeResult) return;
-
-      const anxietyPct = Math.round((anxietyScore / 5) * 100);
-      const avoidancePct = Math.round((avoidanceScore / 5) * 100);
-
-      const shareContent = `[조선 연찰록 - 연애 애착유형 감결]\n` +
-        `나의 조선 연애 유형: [${currentArchetypeResult.title}] (${currentArchetypeResult.styleName})\n` +
-        `"${currentArchetypeResult.subtitle}"\n\n` +
-        `• 애정 불안 지수: ${anxietyPct}%\n` +
-        `• 애정 회피 지수: ${avoidancePct}%\n` +
-        `• 천생연분: ${currentArchetypeResult.best}\n\n` +
-        `그대의 정인을 향한 마음자리는 어떠한가? 지금 연찰록에서 확인하시오!`;
-
-      // Use Web Share API if available, else copy to clipboard
-      if (navigator.share) {
-        navigator.share({
-          title: '조선 연찰록 성인 애착유형 감결서',
-          text: shareContent,
-          url: window.location.href,
-        }).catch(() => {
-          fallbackCopyToClipboard(shareContent);
+        // 결과 로컬스토리지에 저장
+        saveResultToStorage({
+          id: Date.now(),
+          date: new Date().toLocaleDateString('ko-KR', { year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit' }),
+          anxietyPercent,
+          avoidancePercent,
+          typeKey
         });
-      } else {
-        fallbackCopyToClipboard(shareContent);
       }
+
+      const typeData = ATTACHMENT_TYPES[typeKey];
+
+      // UI 요소 반영
+      document.getElementById('resultTypeTitle').innerText = typeData.title;
+      document.getElementById('resultTypeTitle').style.color = typeData.color;
+      document.getElementById('resultSubTitle').innerText = typeData.subTitle;
+
+      document.getElementById('anxietyPercentLabel').innerText = `${anxietyPercent}%`;
+      document.getElementById('anxietyBar').style.width = `${anxietyPercent}%`;
+
+      document.getElementById('avoidancePercentLabel').innerText = `${avoidancePercent}%`;
+      document.getElementById('avoidanceBar').style.width = `${avoidancePercent}%`;
+
+      document.getElementById('resultDescText').innerText = typeData.desc;
+      document.getElementById('resultTrapText').innerText = typeData.trap;
+      document.getElementById('resultPrescriptionText').innerText = typeData.prescription;
+      document.getElementById('bestMatchText').innerText = typeData.bestMatch;
+      document.getElementById('worstMatchText').innerText = typeData.worstMatch;
+
+      // 사분면 SVG 위의 붉은 점 위치 계산
+      // X축: 회피 (0% = x:15, 100% = x:185)
+      // Y축: 불안 (0% = y:185, 100% = y:15)
+      const dotX = 15 + (avoidancePercent / 100) * 170;
+      const dotY = 185 - (anxietyPercent / 100) * 170;
+      const userDot = document.getElementById('userDot');
+      userDot.setAttribute('cx', dotX);
+      userDot.setAttribute('cy', dotY);
+
+      // 화면 전환
+      document.getElementById('screen-start').classList.add('hidden');
+      document.getElementById('screen-quiz').classList.add('hidden');
+      document.getElementById('screen-result').classList.remove('hidden');
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      playPluckSound(4);
     }
 
-    function fallbackCopyToClipboard(text) {
-      const textarea = document.createElement("textarea");
-      textarea.value = text;
-      textarea.style.position = "fixed";
-      textarea.style.opacity = "0";
-      document.body.appendChild(textarea);
-      textarea.focus();
-      textarea.select();
+    function restartSurvey() {
+      playPluckSound(1);
+      document.getElementById('screen-result').classList.add('hidden');
+      document.getElementById('screen-quiz').classList.add('hidden');
+      document.getElementById('screen-start').classList.remove('hidden');
+      updateHistoryBadge();
+    }
 
+    /* ----------------------------------------------------
+       8. 로컬스토리지 기록 보관함 관리
+    ---------------------------------------------------- */
+    const STORAGE_KEY = 'choseon_love_records_v1';
+
+    function getSavedRecords() {
       try {
-        const success = document.execCommand('copy');
-        if (success) {
-          playGayageumSound(440);
-          showToast("감결서가 복사되었습니다! 정인에게 띄워 보내시오 💌");
-        } else {
-          showToast("복사하지 못했습니다. 화면을 캡처해 주시오.");
-        }
-      } catch (err) {
-        showToast("이 기기에서는 직접 텍스트를 복사해 주시오.");
-      } finally {
-        document.body.removeChild(textarea);
+        const raw = localStorage.getItem(STORAGE_KEY);
+        return raw ? JSON.parse(raw) : [];
+      } catch (e) {
+        return [];
       }
     }
 
-    // High-Resolution Hanji Certificate PNG Exporter
-    function exportResultImageCard() {
-      if (!currentArchetypeResult) return;
-      const canvas = document.getElementById('exportCanvas');
+    function saveResultToStorage(record) {
+      const records = getSavedRecords();
+      records.unshift(record); // 최신순 앞에 추가
+      if (records.length > 20) records.pop(); // 최대 20개 보관
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(records));
+      updateHistoryBadge();
+    }
+
+    function updateHistoryBadge() {
+      const records = getSavedRecords();
+      const badge = document.getElementById('historyCountBadge');
+      if (badge) badge.innerText = records.length;
+    }
+
+    function openHistoryModal() {
+      const records = getSavedRecords();
+      const container = document.getElementById('historyListContainer');
+      container.innerHTML = '';
+
+      if (records.length === 0) {
+        container.innerHTML = `
+          <div class="text-center py-8 text-[#7a6452] font-serif-kr text-xs">
+            <span class="text-2xl block mb-2">📭</span>
+            보관된 지난 감결 기록이 없습니다.<br>붓을 들어 첫 감결을 마쳐보십시오.
+          </div>
+        `;
+      } else {
+        records.forEach(rec => {
+          const type = ATTACHMENT_TYPES[rec.typeKey] || ATTACHMENT_TYPES.SECURE;
+          const item = document.createElement('div');
+          item.className = "bg-[#fcf8f0] p-3 rounded-xl border border-[#cbbb9f] flex justify-between items-center shadow-sm";
+          item.innerHTML = `
+            <div>
+              <span class="text-[10px] text-gray-500 block">${rec.date}</span>
+              <span class="font-calli font-bold text-sm text-[#2d1810]">${type.title}</span>
+              <div class="text-[10px] text-[#6b513f] mt-0.5">
+                불안 ${rec.anxietyPercent}% · 회피 ${rec.avoidancePercent}%
+              </div>
+            </div>
+            <div class="flex items-center space-x-1">
+              <button onclick="viewPastRecord(${rec.id})" class="px-2.5 py-1 bg-[#4e3224] text-[#f7eedc] rounded text-xs font-serif-kr">
+                보기
+              </button>
+              <button onclick="deletePastRecord(${rec.id})" class="px-2 py-1 text-gray-400 hover:text-red-600 text-xs">
+                ✕
+              </button>
+            </div>
+          `;
+          container.appendChild(item);
+        });
+      }
+
+      document.getElementById('historyModal').classList.remove('hidden');
+    }
+
+    function closeHistoryModal() {
+      document.getElementById('historyModal').classList.add('hidden');
+    }
+
+    function viewPastRecord(id) {
+      const records = getSavedRecords();
+      const record = records.find(r => r.id === id);
+      if (record) {
+        closeHistoryModal();
+        calculateAndShowResult(record);
+      }
+    }
+
+    function deletePastRecord(id) {
+      let records = getSavedRecords();
+      records = records.filter(r => r.id !== id);
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(records));
+      openHistoryModal();
+      updateHistoryBadge();
+    }
+
+    function clearAllHistory() {
+      if (confirm("보관된 지난 감결 기록을 모두 소각(삭제)하시겠습니까?")) {
+        localStorage.removeItem(STORAGE_KEY);
+        openHistoryModal();
+        updateHistoryBadge();
+      }
+    }
+
+    /* ----------------------------------------------------
+       9. 캔버스 고화질 이미지(교지) 저장 엔진
+    ---------------------------------------------------- */
+    function downloadResultImage() {
+      const title = document.getElementById('resultTypeTitle').innerText;
+      const subtitle = document.getElementById('resultSubTitle').innerText;
+      const anx = document.getElementById('anxietyPercentLabel').innerText;
+      const avo = document.getElementById('avoidancePercentLabel').innerText;
+      const desc = document.getElementById('resultDescText').innerText;
+      const presc = document.getElementById('resultPrescriptionText').innerText;
+
+      const canvas = document.getElementById('hiddenResultCanvas');
       const ctx = canvas.getContext('2d');
 
-      canvas.width = 800;
-      canvas.height = 1060;
+      // 1. 한지 배경 채색
+      ctx.fillStyle = "#f5eedf";
+      ctx.fillRect(0, 0, 800, 1100);
 
-      // Draw Traditional Hanji Background
-      ctx.fillStyle = "#F5EFE4";
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      // 격자 테두리
+      ctx.strokeStyle = "#4a3022";
+      ctx.lineWidth = 14;
+      ctx.strokeRect(20, 20, 760, 1060);
 
-      // Double borders
-      ctx.lineWidth = 6;
-      ctx.strokeStyle = "#9E3039";
-      ctx.strokeRect(30, 30, canvas.width - 60, canvas.height - 60);
-
+      ctx.strokeStyle = "#aa866a";
       ctx.lineWidth = 2;
-      ctx.strokeStyle = "#C59F5A";
-      ctx.strokeRect(44, 44, canvas.width - 88, canvas.height - 88);
+      ctx.strokeRect(32, 32, 736, 1036);
 
-      // Ornaments
-      ctx.fillStyle = "#C59F5A";
-      ctx.font = "24px 'Song Myung', serif";
-      ctx.fillText("❖", 56, 76);
-      ctx.fillText("❖", canvas.width - 76, 76);
-      ctx.fillText("❖", 56, canvas.height - 60);
-      ctx.fillText("❖", canvas.width - 76, canvas.height - 60);
+      // 2. 상단 헤더
+      ctx.fillStyle = "#9e2a2b";
+      ctx.font = "bold 24px 'Noto Serif KR', serif";
+      ctx.textAlign = "center";
+      ctx.fillText("【 奎章閣 戀察錄 (규장각 연찰록) 】", 400, 90);
 
-      // Top title
-      ctx.fillStyle = "#9E3039";
+      ctx.fillStyle = "#2d1810";
+      ctx.font = "bold 44px 'Song Myung', serif";
+      ctx.fillText(title, 400, 160);
+
+      ctx.font = "20px 'Noto Serif KR', serif";
+      ctx.fillStyle = "#553b2c";
+      ctx.fillText(subtitle, 400, 205);
+
+      // 어명 낙관 스탬프
+      ctx.strokeStyle = "#9e2a2b";
+      ctx.lineWidth = 4;
+      ctx.strokeRect(620, 60, 90, 90);
+      ctx.fillStyle = "#9e2a2b";
+      ctx.font = "bold 26px 'Song Myung', serif";
+      ctx.fillText("御命", 665, 100);
+      ctx.fillText("檢定", 665, 134);
+
+      // 3. 지표 박스
+      ctx.fillStyle = "#ede0cc";
+      ctx.fillRect(70, 240, 660, 100);
+      ctx.strokeStyle = "#cbb596";
+      ctx.lineWidth = 2;
+      ctx.strokeRect(70, 240, 660, 100);
+
+      ctx.textAlign = "left";
       ctx.font = "bold 22px 'Noto Serif KR', serif";
+      ctx.fillStyle = "#851e1f";
+      ctx.fillText(`연정 불안도: ${anx}`, 100, 298);
+
+      ctx.fillStyle = "#1d3557";
+      ctx.fillText(`심중 회피도: ${avo}`, 440, 298);
+
+      // 4. 본문 성품 해설
+      ctx.fillStyle = "#332218";
+      ctx.font = "bold 24px 'Noto Serif KR', serif";
+      ctx.fillText("【 연모의 기품과 본태 】", 70, 400);
+
+      ctx.font = "20px 'Noto Serif KR', serif";
+      wrapText(ctx, desc, 70, 440, 660, 32);
+
+      // 5. 처방 비방
+      ctx.fillStyle = "#1e3a5f";
+      ctx.font = "bold 24px 'Noto Serif KR', serif";
+      ctx.fillText("【 백년해로를 위한 심중 비방 】", 70, 650);
+
+      ctx.fillStyle = "#332218";
+      ctx.font = "20px 'Noto Serif KR', serif";
+      wrapText(ctx, presc, 70, 690, 660, 32);
+
+      // 6. 하단 발문
       ctx.textAlign = "center";
-      ctx.fillText("◆ 조선 戀札錄 애정 감결서 ◆", canvas.width / 2, 110);
-
-      ctx.fillStyle = "#5D564F";
+      ctx.fillStyle = "#82634d";
       ctx.font = "16px 'Noto Serif KR', serif";
-      ctx.fillText(`애착 성향: ${currentArchetypeResult.styleName}`, canvas.width / 2, 145);
+      ctx.fillText("한글날 기념 · 조선 성인 애착유형 감결서 · 규장각", 400, 1020);
 
-      // Archetype Title
-      ctx.fillStyle = "#24201E";
-      ctx.font = "bold 46px 'Song Myung', serif";
-      ctx.fillText(currentArchetypeResult.title, canvas.width / 2, 215);
+      // 다운로드 링크 트리거
+      const imageURL = canvas.toDataURL("image/png");
+      const downloadLink = document.createElement("a");
+      downloadLink.download = `조선연찰록_감결서_${title.replace(/\s+/g, '_')}.png`;
+      downloadLink.href = imageURL;
+      downloadLink.click();
+    }
 
-      // Subtitle
-      ctx.fillStyle = "#2F5A4E";
-      ctx.font = "bold 19px 'Noto Serif KR', serif";
-      ctx.fillText(currentArchetypeResult.subtitle, canvas.width / 2, 260);
-
-      // Scores Meter Box
-      ctx.fillStyle = "#FAF5EC";
-      ctx.fillRect(80, 290, canvas.width - 160, 95);
-      ctx.strokeStyle = "#DFBF73";
-      ctx.strokeRect(80, 290, canvas.width - 160, 95);
-
-      const anxietyPct = Math.round((anxietyScore / 5) * 100);
-      const avoidancePct = Math.round((avoidanceScore / 5) * 100);
-
-      ctx.fillStyle = "#9E3039";
-      ctx.font = "bold 18px 'Noto Serif KR', serif";
-      ctx.textAlign = "left";
-      ctx.fillText(`• 애정 불안 지수: ${anxietyPct}% (${anxietyScore >= 3 ? '높음' : '낮음'})`, 110, 330);
-
-      ctx.fillStyle = "#2D4B66";
-      ctx.fillText(`• 애정 회피 지수: ${avoidancePct}% (${avoidanceScore >= 3 ? '높음' : '낮음'})`, 110, 365);
-
-      // Badges
-      ctx.fillStyle = "#5D564F";
-      ctx.font = "16px 'Noto Serif KR', serif";
-      ctx.textAlign = "center";
-      ctx.fillText(currentArchetypeResult.badges.join("    "), canvas.width / 2, 425);
-
-      // Love Description
-      ctx.fillStyle = "#24201E";
-      ctx.font = "17px 'Noto Serif KR', serif";
-      ctx.textAlign = "left";
-
-      const lines = [
-        "【 애정 성품 감결 】",
-        currentArchetypeResult.description.split('\n')[0],
-        currentArchetypeResult.description.split('\n')[1] || "",
-        "",
-        "【 경계해야 할 마음의 독약 】",
-        currentArchetypeResult.poison,
-        "",
-        "【 백년해로를 위한 심중 비방 】",
-        currentArchetypeResult.prescription,
-        "",
-        `천생연분: ${currentArchetypeResult.best}`,
-        `살얼음 인연: ${currentArchetypeResult.worst}`
-      ];
-
-      let currentY = 475;
-      for (const line of lines) {
-        if (line.startsWith("【")) {
-          ctx.fillStyle = "#9E3039";
-          ctx.font = "bold 18px 'Song Myung', serif";
+    // 캔버스 줄바꿈 도우미 함수
+    function wrapText(ctx, text, x, y, maxWidth, lineHeight) {
+      const words = text.split('');
+      let line = '';
+      for (let n = 0; n < words.length; n++) {
+        const testLine = line + words[n];
+        const metrics = ctx.measureText(testLine);
+        const testWidth = metrics.width;
+        if (testWidth > maxWidth && n > 0) {
+          ctx.fillText(line, x, y);
+          line = words[n];
+          y += lineHeight;
         } else {
-          ctx.fillStyle = "#38322B";
-          ctx.font = "16px 'Noto Serif KR', serif";
+          line = testLine;
         }
-        ctx.fillText(line, 80, currentY);
-        currentY += 32;
       }
+      ctx.fillText(line, x, y);
+    }
 
-      // Bottom Right Seal
-      ctx.strokeStyle = "#9E3039";
-      ctx.lineWidth = 3.5;
-      ctx.strokeRect(canvas.width - 180, canvas.height - 185, 100, 100);
-      ctx.fillStyle = "#9E3039";
-      ctx.font = "bold 20px 'Song Myung', serif";
-      ctx.textAlign = "center";
-      ctx.fillText("御批", canvas.width - 130, canvas.height - 140);
-      ctx.fillText("연찰록", canvas.width - 130, canvas.height - 110);
+    /* ----------------------------------------------------
+       10. 결과 갈무리 복사 & 공유
+    ---------------------------------------------------- */
+    function copyShareLink() {
+      const title = document.getElementById('resultTypeTitle').innerText;
+      const anx = document.getElementById('anxietyPercentLabel').innerText;
+      const avo = document.getElementById('avoidancePercentLabel').innerText;
+      const shareUrl = window.location.href;
 
-      // Bottom Date Stamp
-      ctx.fillStyle = "#877B6D";
-      ctx.font = "13px 'Noto Serif KR', serif";
-      ctx.fillText("훈민정음 애정 심학 • 조선 연찰록 감결 완료", canvas.width / 2, canvas.height - 65);
+      const shareText = `[조선 연찰록 戀察錄 감결 결과]\n\n나의 연애 성향: ${title}\n- 연정 불안도: ${anx}\n- 심중 회피도: ${avo}\n\n그대의 연모하는 마음도 지금 규장각에서 짚어보시오.\n${shareUrl}`;
 
-      try {
-        const link = document.createElement('a');
-        link.download = `조선연찰록_애착감결_${currentArchetypeResult.title}.png`;
-        link.href = canvas.toDataURL("image/png");
-        link.click();
-        showToast("감결서 이미지가 보관함에 저장되었습니다!");
-      } catch (e) {
-        showToast("이미지 저장 중 오류가 발생했습니다.");
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(shareText).then(() => {
+          alert("📜 감결서 갈무리 글이 복사되었습니다! 정인이나 벗들에게 전해보십시오.");
+        }).catch(() => {
+          prompt("아래 내용을 복사하여 전하십시오:", shareText);
+        });
+      } else {
+        prompt("아래 내용을 복사하여 전하십시오:", shareText);
       }
     }
 
-    let toastTimer = null;
-    function showToast(msg) {
-      const toast = document.getElementById("toastBox");
-      const msgSpan = document.getElementById("toastMsg");
-      msgSpan.textContent = msg;
-      
-      toast.classList.remove("opacity-0");
-      toast.classList.add("opacity-100");
-
-      if (toastTimer) clearTimeout(toastTimer);
-      toastTimer = setTimeout(() => {
-        toast.classList.remove("opacity-100");
-        toast.classList.add("opacity-0");
-      }, 2500);
-    }
+    // 초기 로드 시 기록 개수 뱃지 갱신
+    document.addEventListener('DOMContentLoaded', () => {
+      updateHistoryBadge();
+    });
   </script>
 </body>
 </html>
-```
